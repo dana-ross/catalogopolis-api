@@ -2,7 +2,7 @@
   "name": "catalogopolis-api",
   "private": true,
   "version": "1.0",
-  "description": "An example module to illustrate the usage of a package.json",
+  "description": "API with information on Doctor Who episodes and related data.",
   "author": "Dave Ross <dave@davidmichaelross.com>",
   "devDependencies": {
   },

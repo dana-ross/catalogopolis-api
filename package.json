@@ -1,0 +1,13 @@
+{
+  "name": "catalogopolis-api",
+  "private": true,
+  "version": "1.0",
+  "description": "An example module to illustrate the usage of a package.json",
+  "author": "Dave Ross <dave@davidmichaelross.com>",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "mysql": "^2.13.0",
+    "restify": "^4.3.0"
+  }
+}

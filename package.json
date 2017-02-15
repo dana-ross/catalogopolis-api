@@ -4,8 +4,7 @@
   "version": "1.0",
   "description": "API with information on Doctor Who episodes and related data.",
   "author": "Dave Ross <dave@davidmichaelross.com>",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "mysql": "^2.13.0",
     "restify": "^4.3.0"

@@ -41,6 +41,6 @@ var server = restify.createServer({
     name: 'Catalogopolis API',
 });
 
-restv1.init(server);
+restv1.init(server, connection);
 
 server.listen(5000);

@@ -1,32 +1,64 @@
+var Doctor = require('./doctor'),
+    Serial = require('./serial'),
+    Writer = require('./writer'),
+    Director = require('./director'),
+    Season = require('./season');
+
+
 /**
  * Set up routes and handlers for the v1 REST API
  * @param server {object} Restify server object
  */
-module.exports.init = function(server) {
+module.exports.init = function (server, connection) {
 
     // Doctors
     server.get({ path: '/doctors', version: '1.0.0' }, allDoctorsV1);
     server.get({ path: 'v1/doctors', version: '1.0.0' }, allDoctorsV1);
     function allDoctorsV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM doctors', [], res, next);
+        Doctor.all(connection).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/doctors/:id', version: '1.0.0' }, doctorByIDV1);
     server.get({ path: 'v1/doctors/:id', version: '1.0.0' }, doctorByIDV1);
     function doctorByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM doctors WHERE id = ?', [req.params.id], res, next);
+        Doctor.forID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
 
     // Serials
     server.get({ path: '/serials', version: '1.0.0' }, allSerialsV1);
     server.get({ path: 'v1/serials', version: '1.0.0' }, allSerialsV1);
     function allSerialsV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM serials', [], res, next);
+        Serial.all(connection).serials.then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/serials/:id', version: '1.0.0' }, serialByIDV1);
     server.get({ path: 'v1/serials/:id', version: '1.0.0' }, serialByIDV1);
     function serialByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM serials WHERE id = ?', [req.params.id], res, next);
+        Serial.forID(connection, req.params.id).serials.then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
+
     server.get({ path: '/serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
     server.get({ path: 'v1/serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
     function doctorsInSerialByIDV1(req, res, next) {
@@ -47,36 +79,72 @@ module.exports.init = function(server) {
     server.get({ path: '/seasons', version: '1.0.0' }, allSeasonsV1);
     server.get({ path: 'v1/seasons', version: '1.0.0' }, allSeasonsV1);
     function allSeasonsV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM seasons', [], res, next);
+        Season.all(connection).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/seasons/:id', version: '1.0.0' }, seasonByIDV1);
     server.get({ path: 'v1/seasons/:id', version: '1.0.0' }, seasonByIDV1);
     function seasonByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM seasons WHERE id = ?', [req.params.id], res, next);
+        Season.forID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
 
     // Directors
     server.get({ path: '/directors', version: '1.0.0' }, allDirectorsV1);
     server.get({ path: 'v1/directors', version: '1.0.0' }, allDirectorsV1);
     function allDirectorsV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM directors', [], res, next);
+        Director.all(connection).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/directors/:id', version: '1.0.0' }, directorByIDV1);
     server.get({ path: 'v1/directors/:id', version: '1.0.0' }, directorByIDV1);
     function directorByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM directors WHERE id = ?', [req.params.id], res, next);
+        Director.forID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
 
     // Writers
     server.get({ path: '/writers', version: '1.0.0' }, allWritersV1);
     server.get({ path: 'v1/writers', version: '1.0.0' }, allWritersV1);
     function allWritersV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM writers', [], res, next);
+        Writer.all(connection).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/writers/:id', version: '1.0.0' }, writerByIDV1);
     server.get({ path: 'v1/writers/:id', version: '1.0.0' }, writerByIDV1);
     function writerByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT * FROM writers WHERE id = ?', [req.params.id], res, next);
+        Writer.forID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            res.send(404);
+            return next();
+        });
     }
 
 }

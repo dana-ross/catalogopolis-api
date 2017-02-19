@@ -6,6 +6,7 @@
   "author": "Dave Ross <dave@davidmichaelross.com>",
   "devDependencies": {},
   "dependencies": {
+    "memoizee": "^0.4.2",
     "mysql": "^2.13.0",
     "restify": "^4.3.0"
   }

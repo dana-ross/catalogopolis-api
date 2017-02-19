@@ -1,9 +1,11 @@
+var memoize = require('memoizee');
+
 var method = Doctor.prototype;
 function Doctor() {
     var id, incarnation, actor;
 }
 
-method.forID = function (connection, id) {
+method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
         connection.query('SELECT * FROM doctors WHERE id = ?', [id], function (err, rows, fields) {
@@ -21,9 +23,9 @@ method.forID = function (connection, id) {
             }
         });
     });
-}
+});
 
-method.all = function (connection) {
+method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
         connection.query('SELECT * FROM doctors ORDER BY id', [], function (err, rows, fields) {
@@ -43,7 +45,7 @@ method.all = function (connection) {
             }
         });
     });
-}
+});
 
 method.fromRow = function (row) {
     var doctor = new Doctor();

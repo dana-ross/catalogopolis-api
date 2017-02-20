@@ -8,7 +8,7 @@ function Writer() {
 method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.query('SELECT * FROM writers WHERE id = ?', [id], function (err, rows, fields) {
+        connection.run('SELECT * FROM writers WHERE id = ?', [id], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(self.fromRow(rows[0]).addHATEAOS());
@@ -28,7 +28,7 @@ method.forID = memoize(function (connection, id) {
 method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.query('SELECT * FROM writers ORDER BY id', [], function (err, rows, fields) {
+        connection.run('SELECT * FROM writers ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
                 console.log(rows);
                 if (rows && rows.length) {

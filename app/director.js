@@ -6,7 +6,7 @@ function Director() {
 method.forID = function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.query('SELECT * FROM directors WHERE id = ?', [id], function (err, rows, fields) {
+        connection.all('SELECT * FROM directors WHERE id = ?', [id], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(self.fromRow(rows[0]).addHATEAOS());
@@ -26,7 +26,7 @@ method.forID = function (connection, id) {
 method.all = function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.query('SELECT * FROM directors ORDER BY id', [], function (err, rows, fields) {
+        connection.all('SELECT * FROM directors ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
                 console.log(rows);
                 if (rows && rows.length) {

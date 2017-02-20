@@ -1,13 +1,17 @@
 {
   "name": "catalogopolis-api",
   "private": true,
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "API with information on Doctor Who episodes and related data.",
   "author": "Dave Ross <dave@davidmichaelross.com>",
+  "main": "app/server.js",
+  "scripts": {
+    "start": "node app/server.js"
+  },
   "devDependencies": {},
   "dependencies": {
     "memoizee": "^0.4.2",
-    "mysql": "^2.13.0",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "sqlite3": "^3.1.8"
   }
 }

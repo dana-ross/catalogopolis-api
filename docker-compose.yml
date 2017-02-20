@@ -2,34 +2,6 @@ version: '2'
 services:
   web:
     image: node
-    build:
-        context: config/node
-        dockerfile: Dockerfile
+    build: .
     ports:
      - "5000:5000"
-    volumes:
-     - .:/code
-
-  mariadb:
-    image: wangxian/alpine-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: catalogopolis
-      MYSQL_USER: doctor
-      MYSQL_PASSWORD: doctor
-    volumes:
-      - mariadb:/var/lib/mysql
-
-  pma:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: doctor
-      PMA_PASSWORD: doctor
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    ports:
-     - "8001:80"
-
-volumes:
-  mariadb:

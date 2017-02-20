@@ -1,16 +1,8 @@
 var restify = require('restify'),
-    fs = require('fs'),
-    mysql = require('mysql'),
-    restv1 = require('./restv1');
+    restv1 = require('./restv1'),
+    sqlite3 = require('sqlite3').verbose();
 
-var connection = mysql.createConnection({
-    host: 'mariadb',
-    user: 'doctor',
-    password: 'doctor',
-    database: 'catalogopolis'
-});
-
-connection.connect();
+var connection = new sqlite3.Database('/code/catalogopolis-api.sqlite', sqlite3.OPEN_READONLY);
 
 /**
  * Perform a MySQL query and send a basic response with the rows returned.
@@ -21,7 +13,7 @@ connection.connect();
  * @param {callback} next Next handler 
  */
 function doQuerySendResponse(query, params, res, next) {
-    connection.query(query, params, function (err, rows, fields) {
+    connection.run(query, params, function (err, rows, fields) {
         if (!err) {
             if (rows && rows.length) {
                 res.send(200, rows);

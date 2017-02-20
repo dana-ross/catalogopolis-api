@@ -19,7 +19,7 @@ function Doctor() {
  * Returns a single Doctor object for a given database ID
  * @param {object} connection SQLite connection
  * @param {number} id Doctor database ID
- * @returns {Doctor}
+ * @returns {Promise} Single Doctor record
  */
 method.forID = memoize(function (connection, id) {
     var self = this;
@@ -42,7 +42,7 @@ method.forID = memoize(function (connection, id) {
 /**
  * Returns all Doctor objects in the system
  * @param {object} connection SQLite connection
- * @returns {Array} Array of Doctor objects
+ * @returns {Promise} Array of Doctor objects
  */
 method.all = memoize(function (connection) {
     var self = this;

@@ -1,3 +1,8 @@
+/**
+ * @file Writer class
+ * @author Dave Ross <dave@davidmichaelross.com> 
+ */
+
 var memoize = require('memoizee');
 
 var method = Writer.prototype;

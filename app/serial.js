@@ -1,3 +1,8 @@
+/**
+ * @file Serial class
+ * @author Dave Ross <dave@davidmichaelross.com> 
+ */
+
 var memoize = require('memoizee');
 
 var method = Serial.prototype;

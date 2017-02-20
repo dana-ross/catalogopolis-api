@@ -1,3 +1,8 @@
+/**
+ * @file Season class
+ * @author Dave Ross <dave@davidmichaelross.com> 
+ */
+
 var memoize = require('memoizee');
 
 var method = Season.prototype;

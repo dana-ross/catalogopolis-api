@@ -17,6 +17,7 @@ var RestifyGraphQL = function RestifyGraphQL(schema) {
 module.exports.RestifyGraphQL = RestifyGraphQL;
 
 module.exports.init = function (server, connection) {
+
     var doctorType = new graphql.GraphQLObjectType({
         name: 'Doctor',
         description: 'A single incarnation of The Doctor',
@@ -51,7 +52,7 @@ module.exports.init = function (server, connection) {
                         }
                     },
                     resolve: (root, { id }) => {
-                        return new Promise(function(resolve, reject) {
+                        return new Promise(function (resolve, reject) {
                             Doctor.forID(connection, id).then(
                                 (value) => resolve(value),
                                 (reason) => reject(reason)

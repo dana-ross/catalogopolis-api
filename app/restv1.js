@@ -66,7 +66,6 @@ module.exports.init = function (server, connection) {
             res.send(200, value);
             return next();
         }, function (reason) {
-            console.log(reason);
             res.send(404);
             return next();
         });
@@ -78,7 +77,6 @@ module.exports.init = function (server, connection) {
             res.send(200, value);
             return next();
         }, function (reason) {
-            console.log(reason);
             res.send(404);
             return next();
         });
@@ -90,7 +88,6 @@ module.exports.init = function (server, connection) {
             res.send(200, value);
             return next();
         }, function (reason) {
-            console.log(reason);
             res.send(404);
             return next();
         });

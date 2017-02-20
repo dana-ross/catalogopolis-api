@@ -29,7 +29,7 @@ method.all = memoize(function (connection) {
         connection.all('SELECT * FROM seasons ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
-                    resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }));
+                    resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }));
                 }
                 else {
                     resolve([]);
@@ -53,7 +53,7 @@ method.restv1URL = function (id) {
 }
 
 method.addHATEAOS = function (season) {
-    if(season === undefined) {
+    if (season === undefined) {
         season = this;
     }
     season.links = [];

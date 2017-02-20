@@ -29,7 +29,7 @@ method.all = memoize(function (connection) {
         connection.all('SELECT * FROM doctors ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
-                    resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }, rows));
+                    resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);
@@ -41,13 +41,13 @@ method.all = memoize(function (connection) {
     });
 });
 
-method.forSerialID = memoize(function(connection, serialID) {
+method.forSerialID = memoize(function (connection, serialID) {
     var self = this;
     return new Promise(function (resolve, reject) {
         connection.all('SELECT doctors.* FROM serials INNER JOIN serials_doctors ON serials.id = serials_doctors.serial_id INNER JOIN doctors ON serials_doctors.doctor_id = doctors.id WHERE serials.id = ?', [serialID], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
-                    resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }, rows));
+                    resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);
@@ -73,7 +73,7 @@ method.restv1URL = function (id) {
 }
 
 method.addHATEAOS = function (doctor) {
-    if(doctor === undefined) {
+    if (doctor === undefined) {
         doctor = this;
     }
     doctor.links = [];

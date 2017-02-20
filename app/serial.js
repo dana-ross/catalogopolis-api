@@ -29,7 +29,7 @@ method.all = memoize(function (connection) {
         connection.all('SELECT * FROM serials ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
-                    resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }, rows));
+                    resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);
@@ -57,7 +57,7 @@ method.restv1URL = function (id) {
 }
 
 method.addHATEAOS = function (serial) {
-    if(serial === undefined) {
+    if (serial === undefined) {
         serial = this;
     }
     serial.links = [];

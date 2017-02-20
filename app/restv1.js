@@ -100,5 +100,5 @@ module.exports.init = function (server, connection) {
     function writerByIDV1(req, res, next) {
         Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
     }
-    
+
 }

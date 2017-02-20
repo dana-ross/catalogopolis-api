@@ -8,7 +8,7 @@ function Writer() {
 method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.run('SELECT * FROM writers WHERE id = ?', [id], function (err, rows, fields) {
+        connection.all('SELECT * FROM writers WHERE id = ?', [id], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(self.fromRow(rows[0]).addHATEAOS());
@@ -17,8 +17,6 @@ method.forID = memoize(function (connection, id) {
                     resolve([]);
                 }
             } else {
-                console.log('Error while performing Query.');
-                console.log(err);
                 reject({ error: { message: 'Error while performing Query.' } });
             }
         });
@@ -28,19 +26,15 @@ method.forID = memoize(function (connection, id) {
 method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.run('SELECT * FROM writers ORDER BY id', [], function (err, rows, fields) {
+        connection.all('SELECT * FROM writers ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
-                console.log(rows);
                 if (rows && rows.length) {
-                    console.log(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }));
                     resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);
                 }
             } else {
-                console.log('Error while performing Query.');
-                console.log(err);
                 reject({ error: { message: 'Error while performing Query.' } });
             }
         });

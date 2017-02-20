@@ -17,8 +17,6 @@ method.forID = memoize(function (connection, id) {
                     resolve([]);
                 }
             } else {
-                console.log('Error while performing Query.');
-                console.log(err);
                 reject({ error: { message: 'Error while performing Query.' } });
             }
         });
@@ -30,17 +28,13 @@ method.all = memoize(function (connection) {
     return new Promise(function (resolve, reject) {
         connection.all('SELECT * FROM doctors ORDER BY id', [], function (err, rows, fields) {
             if (!err) {
-                console.log(rows);
                 if (rows && rows.length) {
-                    console.log(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }));
                     resolve(rows.map(function(x) { return self.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);
                 }
             } else {
-                console.log('Error while performing Query.');
-                console.log(err);
                 reject({ error: { message: 'Error while performing Query.' } });
             }
         });

@@ -1,10 +1,21 @@
 var memoize = require('memoizee');
 
 var method = Doctor.prototype;
+
+/**
+ * Creates a new Doctor
+ * @class
+ */
 function Doctor() {
     var id, incarnation, actor;
 }
 
+/**
+ * Returns a single Doctor object for a given database ID
+ * @param {object} connection SQLite connection
+ * @param {number} id Doctor database ID
+ * @returns {Doctor}
+ */
 method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -23,6 +34,11 @@ method.forID = memoize(function (connection, id) {
     });
 });
 
+/**
+ * Returns all Doctor objects in the system
+ * @param {object} connection SQLite connection
+ * @returns {Array} Array of Doctor objects
+ */
 method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -41,6 +57,12 @@ method.all = memoize(function (connection) {
     });
 });
 
+/**
+ * Returns all Doctor objects for a given serial ID
+ * @param {object} connection SQLite connection
+ * @param {number} serialID Serial database ID
+ * @returns {Array} Array of Doctor objects
+ */
 method.forSerialID = memoize(function (connection, serialID) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -60,6 +82,12 @@ method.forSerialID = memoize(function (connection, serialID) {
 
 });
 
+/**
+ * Returns a new Doctor object populated from a basic JavaScript object (database result row)
+ * @param {object} row Object with fields to copy to a new Doctor
+ * @returns {Doctor}
+ * @static
+ */
 method.fromRow = function (row) {
     var doctor = new Doctor();
     row.id ? (doctor.id = row.id) : undefined;
@@ -68,10 +96,21 @@ method.fromRow = function (row) {
     return doctor;
 }
 
+/**
+ * Returns the canonical REST API v1 endpoint for a Doctor
+ * @param {number} id Database record ID
+ * @return {string} REST API v1 endpoint URL
+ * @static
+ */
 method.restv1URL = function (id) {
     return ("/v1/doctors" + ((id !== undefined) ? ("/" + id) : ""));
 }
 
+/**
+ * Adds HATEAOS data to a Doctor object
+ * @param {Doctor|undefined} Object representing a Doctor, uses current object (this) if undefined
+ * @returns {Doctor}
+ */
 method.addHATEAOS = function (doctor) {
     if (doctor === undefined) {
         doctor = this;

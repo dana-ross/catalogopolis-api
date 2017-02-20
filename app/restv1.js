@@ -86,7 +86,14 @@ module.exports.init = function (server, connection) {
     server.get({ path: '/serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);
     server.get({ path: 'v1/serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);
     function writersOfSerialByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT writers.* FROM serials INNER JOIN serials_writers ON serials.id = serials_writers.serial_id INNER JOIN writers ON serials_writers.writer_id = writers.id WHERE serials.id = ?', [req.params.id], res, next);
+        Writer.forSerialID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            console.log(reason);
+            res.send(404);
+            return next();
+        });
     }
 
     // Seasons

@@ -74,7 +74,14 @@ module.exports.init = function (server, connection) {
     server.get({ path: '/serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);
     server.get({ path: 'v1/serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);
     function directorsOfSerialByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT directors.* FROM serials INNER JOIN serials_directors ON serials.id = serials_directors.serial_id INNER JOIN directors ON serials_directors.director_id = directors.id WHERE serials.id = ?', [req.params.id], res, next);
+        Director.forSerialID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            console.log(reason);
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);
     server.get({ path: 'v1/serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);

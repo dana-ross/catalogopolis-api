@@ -6,10 +6,21 @@
 var memoize = require('memoizee');
 
 var method = Writer.prototype;
+
+/**
+ * Creates a new Writer
+ * @class
+ */
 function Writer() {
     var id, name;
 }
 
+/**
+ * Returns a single Writer object for a given database ID
+ * @param {object} connection SQLite connection
+ * @param {number} id Writer database ID
+ * @returns {Writer}
+ */
 method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -28,6 +39,11 @@ method.forID = memoize(function (connection, id) {
     });
 });
 
+/**
+ * Returns all Writer objects in the system
+ * @param {object} connection SQLite connection
+ * @returns {Array} Array of Writer objects
+ */
 method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -46,6 +62,12 @@ method.all = memoize(function (connection) {
     });
 });
 
+/**
+ * Returns all Writer objects for a given writer ID
+ * @param {object} connection SQLite connection
+ * @param {number} serialID Writer database ID
+ * @returns {Array} Array of Writer objects
+ */
 method.forSerialID = memoize(function (connection, serialID) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -65,6 +87,12 @@ method.forSerialID = memoize(function (connection, serialID) {
 
 });
 
+/**
+ * Returns a new Writer object populated from a basic JavaScript object (database result row)
+ * @param {object} row Object with fields to copy to a new Writer
+ * @returns {Writer}
+ * @static
+ */
 method.fromRow = function (row) {
     var writer = new Writer();
     row.id ? (writer.id = row.id) : undefined;
@@ -72,10 +100,21 @@ method.fromRow = function (row) {
     return writer;
 }
 
+/**
+ * Returns the canonical REST API v1 endpoint for a Writer
+ * @param {number} id Database record ID
+ * @return {string} REST API v1 endpoint URL
+ * @static
+ */
 method.restv1URL = function (id) {
     return ("/v1/writers" + ((id !== undefined) ? ("/" + id) : ""));
 }
 
+/**
+ * Adds HATEAOS data to a Writer object
+ * @param {Writer|undefined} Object representing a Writer, uses current object (this) if undefined
+ * @returns {Writer}
+ */
 method.addHATEAOS = function (writer) {
     if (writer === undefined) {
         writer = this;

@@ -6,10 +6,21 @@
 var memoize = require('memoizee');
 
 var method = Serial.prototype;
+
+/**
+ * Creates a new Serial
+ * @class
+ */
 function Serial() {
     var id, seasonID, story, serial, title, productionCode;
 }
 
+/**
+ * Returns a single Serial object for a given database ID
+ * @param {object} connection SQLite connection
+ * @param {number} id Serial database ID
+ * @returns {Serial}
+ */
 method.forID = memoize(function (connection, id) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -28,6 +39,11 @@ method.forID = memoize(function (connection, id) {
     });
 });
 
+/**
+ * Returns all Serial objects in the system
+ * @param {object} connection SQLite connection
+ * @returns {Array} Array of Serial objects
+ */
 method.all = memoize(function (connection) {
     var self = this;
     return new Promise(function (resolve, reject) {
@@ -46,6 +62,12 @@ method.all = memoize(function (connection) {
     });
 });
 
+/**
+ * Returns a new Serial object populated from a basic JavaScript object (database result row)
+ * @param {object} row Object with fields to copy to a new Serial
+ * @returns {Serial}
+ * @static
+ */
 method.fromRow = function (row) {
     var serial = new Serial();
     row.id ? (serial.id = row.id) : undefined;
@@ -57,10 +79,21 @@ method.fromRow = function (row) {
     return serial;
 }
 
+/**
+ * Returns the canonical REST API v1 endpoint for a Serial
+ * @param {number} id Database record ID
+ * @return {string} REST API v1 endpoint URL
+ * @static
+ */
 method.restv1URL = function (id) {
     return ("/v1/serials" + ((id !== undefined) ? ("/" + id) : ""));
 }
 
+/**
+ * Adds HATEAOS data to a Serial object
+ * @param {Serial|undefined} Object representing a Serial, uses current object (this) if undefined
+ * @returns {Serial}
+ */
 method.addHATEAOS = function (serial) {
     if (serial === undefined) {
         serial = this;

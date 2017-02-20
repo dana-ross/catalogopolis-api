@@ -39,7 +39,7 @@ module.exports.init = function (server, connection) {
     server.get({ path: '/serials', version: '1.0.0' }, allSerialsV1);
     server.get({ path: 'v1/serials', version: '1.0.0' }, allSerialsV1);
     function allSerialsV1(req, res, next) {
-        Serial.all(connection).serials.then(function (value) {
+        Serial.all(connection).then(function (value) {
             res.send(200, value);
             return next();
         }, function (reason) {
@@ -50,7 +50,7 @@ module.exports.init = function (server, connection) {
     server.get({ path: '/serials/:id', version: '1.0.0' }, serialByIDV1);
     server.get({ path: 'v1/serials/:id', version: '1.0.0' }, serialByIDV1);
     function serialByIDV1(req, res, next) {
-        Serial.forID(connection, req.params.id).serials.then(function (value) {
+        Serial.forID(connection, req.params.id).then(function (value) {
             res.send(200, value);
             return next();
         }, function (reason) {
@@ -62,7 +62,14 @@ module.exports.init = function (server, connection) {
     server.get({ path: '/serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
     server.get({ path: 'v1/serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
     function doctorsInSerialByIDV1(req, res, next) {
-        doQuerySendResponse('SELECT doctors.* FROM serials INNER JOIN serials_doctors ON serials.id = serials_doctors.serial_id INNER JOIN doctors ON serials_doctors.doctor_id = doctors.id WHERE serials.id = ?', [req.params.id], res, next);
+        Doctor.forSerialID(connection, req.params.id).then(function (value) {
+            res.send(200, value);
+            return next();
+        }, function (reason) {
+            console.log(reason);
+            res.send(404);
+            return next();
+        });
     }
     server.get({ path: '/serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);
     server.get({ path: 'v1/serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);

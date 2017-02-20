@@ -1,3 +1,8 @@
+/**
+ * @file Catalogopolis API Bootstrap/Initialization
+ * @author Dave Ross <dave@davidmichaelross.com> 
+ */
+
 var restify = require('restify'),
     restv1 = require('./restv1'),
     sqlite3 = require('sqlite3').verbose();

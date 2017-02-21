@@ -104,8 +104,16 @@ module.exports.init = function (server, connection) {
                     description: 'Serial ID'
                 },
                 season: {
-                    type: graphql.GraphQLInt,
-                    description: 'Season ID'
+                    type: seasonType,
+                    description: 'Season',
+                    resolve: (parent) => {
+                        return new Promise(function (resolve, reject) {
+                            Season.forID(connection, parent.seasonID).then(
+                                (value) => resolve(value),
+                                (reason) => reject(reason)
+                            )
+                        });
+                    }
                 },
                 story: {
                     type: graphql.GraphQLInt,
@@ -122,6 +130,30 @@ module.exports.init = function (server, connection) {
                 productionCode: {
                     type: graphql.GraphQLString,
                     description: 'Serial production code'
+                },
+                directors: {
+                    type: new graphql.GraphQLList(directorType),
+                    description: 'Directors of this serial',
+                    resolve: (parent) => {
+                        return new Promise(function (resolve, reject) {
+                            Director.forSerialID(connection, parent.id).then(
+                                (value) => resolve(value),
+                                (reason) => reject(reason)
+                            )
+                        });
+                    }
+                },
+                writers: {
+                    type: new graphql.GraphQLList(writerType),
+                    description: 'Writers of this serial',
+                    resolve: (parent) => {
+                        return new Promise(function (resolve, reject) {
+                            Writer.forSerialID(connection, parent.id).then(
+                                (value) => resolve(value),
+                                (reason) => reject(reason)
+                            )
+                        });
+                    }
                 }
             }
         }
@@ -210,9 +242,8 @@ module.exports.init = function (server, connection) {
                     resolve: (root, { id }) => {
                         return new Promise(function (resolve, reject) {
                             Serial.forID(connection, id).then(
-                                (value) => function (value) {
+                                (value) => {
                                     value.season = value.seasonID;
-                                    value.seasonID = undefined;
                                     resolve(value);
                                 },
                                 (reason) => reject(reason)

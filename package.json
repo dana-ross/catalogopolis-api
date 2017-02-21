@@ -6,14 +6,21 @@
   "author": "Dave Ross <dave@davidmichaelross.com>",
   "main": "app/server.js",
   "scripts": {
-    "start": "node app/server.js"
+    "start": "node app/server.js",
+    "apidoc": "node_modules\\.bin\\apidoc -i app -o restapidoc"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "apidoc": "^0.17.5"
+  },
   "dependencies": {
     "graphql": "^0.9.1",
     "memoizee": "^0.4.2",
     "mysql": "^2.13.0",
     "restify": "^4.3.0",
     "sqlite3": "^3.1.8"
+  },
+  "apidoc": {
+    "title": "Catalogopolis REST API v1",
+    "url": "https://api.catalogopolis.xyz/v1"
   }
 }

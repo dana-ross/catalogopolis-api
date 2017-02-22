@@ -117,6 +117,18 @@ module.exports.init = function (server, connection) {
                     type: graphql.GraphQLString,
                     description: 'Serial production code'
                 },
+                doctors: {
+                    type: doctorType,
+                    description: 'Doctor(s) who appeared in this episode',
+                    resolve: (parent) => {
+                        return new Promise(function (resolve, reject) {
+                            Doctor.forSerial(connection, parent.id).then(
+                                (value) => resolve(value),
+                                (reason) => reject(reason)
+                            )
+                        });
+                    }
+                },
                 directors: {
                     type: new graphql.GraphQLList(directorType),
                     description: 'Directors of this serial',

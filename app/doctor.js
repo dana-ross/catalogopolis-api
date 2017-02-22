@@ -40,6 +40,54 @@ method.forID = memoize(function (connection, id) {
 });
 
 /**
+ * Returns a single Doctor object for a given database ID
+ * @param {object} connection SQLite connection
+ * @param {number} id Doctor database ID
+ * @returns {Promise} Single Doctor record
+ */
+method.forIncarnation = memoize(function (connection, incarnation) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM doctors WHERE incarnation = ?', [incarnation], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
+ * Returns a single Doctor object for a given database ID
+ * @param {object} connection SQLite connection
+ * @param {number} id Doctor database ID
+ * @returns {Promise} Single Doctor record
+ */
+method.forActor = memoize(function (connection, actor) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM doctors WHERE actor = ?', [actor], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
  * Returns all Doctor objects in the system
  * @param {object} connection SQLite connection
  * @returns {Promise} Array of Doctor objects

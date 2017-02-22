@@ -6,6 +6,9 @@ var graphql = require('graphql'),
     Season = require('./season'),
     Serial = require('./serial');
 
+var objectIDsEqual = (x,y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
+    arrayAllSame = values => values.reduce((t,v,i,a) => t && objectIDsEqual(v, a[0]));
+
 module.exports.init = function (server, connection) {
 
     var doctorType = new graphql.GraphQLObjectType({
@@ -167,13 +170,27 @@ module.exports.init = function (server, connection) {
                         id: {
                             description: 'Doctor ID',
                             type: graphql.GraphQLID
+                        },
+                        incarnation: {
+                            description: 'Name of this incarnation of The Doctor',
+                            type: graphql.GraphQLString
+                        },
+                        actor: {
+                            description: 'Name of the actor who portrayed this incarnation of The Doctor',
+                            type: graphql.GraphQLString
                         }
                     },
-                    resolve: (root, { id }) => {
+                    resolve: (root, { id, incarnation, actor }) => {
                         return new Promise(function (resolve, reject) {
-                            Doctor.forID(connection, id).then(
-                                (value) => resolve(value),
-                                (reason) => reject(reason)
+                            Promise.all(
+                                [
+                                    id ? Doctor.forID(connection, id) : null,
+                                    incarnation ? Doctor.forIncarnation(connection, incarnation) : null,
+                                    actor ? Doctor.forActor(connection, actor) : null
+                                ].filter(x => x !== null)
+                            ).then(
+                                values => resolve(arrayAllSame(values) ? values[0] : null),
+                                reason => reject(reason)
                             );
                         })
                     },

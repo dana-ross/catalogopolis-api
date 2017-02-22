@@ -1,24 +1,10 @@
 var graphql = require('graphql'),
+    graphqlHTTP = require('express-graphql'),
     Doctor = require('./doctor'),
     Director = require('./director'),
     Writer = require('./writer'),
     Season = require('./season'),
     Serial = require('./serial');
-
-var RestifyGraphQL = function RestifyGraphQL(schema) {
-    return function (req, res, next) {
-        graphql.graphql(schema, req.query.query).then(
-            result => { res.send(200, result); next(); },
-            reason => {
-                console.log(reason);
-                res.send(404);
-                next();
-            }
-        );
-    }
-};
-
-module.exports.RestifyGraphQL = RestifyGraphQL;
 
 module.exports.init = function (server, connection) {
 
@@ -255,6 +241,9 @@ module.exports.init = function (server, connection) {
         })
     });
 
-    server.get({ path: 'graphql', version: '1.0.0' }, RestifyGraphQL(schema));
+    server.use('/graphql', graphqlHTTP({
+        schema: schema,
+        graphiql: true
+    }));
 }
 

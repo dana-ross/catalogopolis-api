@@ -4,17 +4,15 @@ var Doctor = require('./doctor'),
     Director = require('./director'),
     Season = require('./season');
 
-function processSuccessfulQueryResults(res, next) {
+function processSuccessfulQueryResults(res) {
     return function (value) {
-        res.send(200, value);
-        return next();
+        res.send(value);
     }
 }
 
-function processFailedQueryResults(res, next) {
+function processFailedQueryResults(res) {
     return function (reason) {
-        res.send(404);
-        return next();
+        res.status(404).send('Error');
     }
 }
 
@@ -31,10 +29,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiSuccess {Object[]} doctors List of Doctors.
      */
-    server.get({ path: 'doctors', version: '1.0.0' }, allDoctorsV1);
-    server.get({ path: 'v1/doctors', version: '1.0.0' }, allDoctorsV1);
-    function allDoctorsV1(req, res, next) {
-        Doctor.all(connection).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/doctors', allDoctorsV1);
+    server.get('/v1/doctors', allDoctorsV1);
+    function allDoctorsV1(req, res) {
+        Doctor.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -48,10 +46,11 @@ module.exports.init = function (server, connection) {
      * @apiSuccess {String} incarnation Incarnation name (i.e. "The War Doctor", "The Fifth Doctor").
      * @apiSuccess {String} actor Actor who portrayed this incarnation of The Doctor.
      */
-    server.get({ path: 'doctors/:id', version: '1.0.0' }, doctorByIDV1);
-    server.get({ path: 'v1/doctors/:id', version: '1.0.0' }, doctorByIDV1);
-    function doctorByIDV1(req, res, next) {
-        Doctor.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/doctors/:id', doctorByIDV1);
+    server.get('/v1/doctors/:id', doctorByIDV1);
+    function doctorByIDV1(req, res) {
+        console.log(req);
+        Doctor.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -61,10 +60,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiSuccess {Object[]} doctors List of Serials.
      */
-    server.get({ path: 'serials', version: '1.0.0' }, allSerialsV1);
-    server.get({ path: 'v1/serials', version: '1.0.0' }, allSerialsV1);
-    function allSerialsV1(req, res, next) {
-        Serial.all(connection).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/serials', allSerialsV1);
+    server.get('/v1/serials', allSerialsV1);
+    function allSerialsV1(req, res) {
+        Serial.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -74,10 +73,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiParam {Number} id Serial ID
      */
-    server.get({ path: 'serials/:id', version: '1.0.0' }, serialByIDV1);
-    server.get({ path: 'v1/serials/:id', version: '1.0.0' }, serialByIDV1);
-    function serialByIDV1(req, res, next) {
-        Serial.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/serials/:id', serialByIDV1);
+    server.get('/v1/serials/:id', serialByIDV1);
+    function serialByIDV1(req, res) {
+        Serial.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -87,10 +86,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiParam {Number} id Serial ID
      */
-    server.get({ path: 'serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
-    server.get({ path: 'v1/serials/:id/doctors', version: '1.0.0' }, doctorsInSerialByIDV1);
-    function doctorsInSerialByIDV1(req, res, next) {
-        Doctor.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/serials/:id/doctors', doctorsInSerialByIDV1);
+    server.get('/v1/serials/:id/doctors', doctorsInSerialByIDV1);
+    function doctorsInSerialByIDV1(req, res) {
+        Doctor.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -100,10 +99,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiParam {Number} id Serial ID
      */
-    server.get({ path: 'serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);
-    server.get({ path: 'v1/serials/:id/directors', version: '1.0.0' }, directorsOfSerialByIDV1);
-    function directorsOfSerialByIDV1(req, res, next) {
-        Director.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/serials/:id/directors', directorsOfSerialByIDV1);
+    server.get('/v1/serials/:id/directors', directorsOfSerialByIDV1);
+    function directorsOfSerialByIDV1(req, res) {
+        Director.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -113,10 +112,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiParam {Number} id Serial ID
      */
-    server.get({ path: 'serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);
-    server.get({ path: 'v1/serials/:id/writers', version: '1.0.0' }, writersOfSerialByIDV1);
-    function writersOfSerialByIDV1(req, res, next) {
-        Writer.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/serials/:id/writers', writersOfSerialByIDV1);
+    server.get('/v1/serials/:id/writers', writersOfSerialByIDV1);
+    function writersOfSerialByIDV1(req, res) {
+        Writer.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -126,10 +125,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiSuccess {Object[]} doctors List of Seasons.
      */
-    server.get({ path: 'seasons', version: '1.0.0' }, allSeasonsV1);
-    server.get({ path: 'v1/seasons', version: '1.0.0' }, allSeasonsV1);
-    function allSeasonsV1(req, res, next) {
-        Season.all(connection).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/seasons', allSeasonsV1);
+    server.get('/v1/seasons', allSeasonsV1);
+    function allSeasonsV1(req, res) {
+        Season.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -142,10 +141,10 @@ module.exports.init = function (server, connection) {
      * @apiSuccess {Number} id Season ID.
      * @apiSuccess {String} name What the season is called (i.e. "Season Two", "Series Four").
      */
-    server.get({ path: 'seasons/:id', version: '1.0.0' }, seasonByIDV1);
-    server.get({ path: 'v1/seasons/:id', version: '1.0.0' }, seasonByIDV1);
-    function seasonByIDV1(req, res, next) {
-        Season.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/seasons/:id', seasonByIDV1);
+    server.get('/v1/seasons/:id', seasonByIDV1);
+    function seasonByIDV1(req, res) {
+        Season.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -155,10 +154,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiSuccess {Object[]} doctors List of Directors.
      */
-    server.get({ path: 'directors', version: '1.0.0' }, allDirectorsV1);
-    server.get({ path: 'v1/directors', version: '1.0.0' }, allDirectorsV1);
-    function allDirectorsV1(req, res, next) {
-        Director.all(connection).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/directors', allDirectorsV1);
+    server.get('/v1/directors', allDirectorsV1);
+    function allDirectorsV1(req, res) {
+        Director.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -171,10 +170,10 @@ module.exports.init = function (server, connection) {
      * @apiSuccess {Number} id Director ID.
      * @apiSuccess {String} name The Director's name.
      */
-    server.get({ path: 'directors/:id', version: '1.0.0' }, directorByIDV1);
-    server.get({ path: 'v1/directors/:id', version: '1.0.0' }, directorByIDV1);
-    function directorByIDV1(req, res, next) {
-        Director.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/directors/:id', directorByIDV1);
+    server.get('/v1/directors/:id', directorByIDV1);
+    function directorByIDV1(req, res) {
+        Director.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -184,10 +183,10 @@ module.exports.init = function (server, connection) {
      * 
      * @apiSuccess {Object[]} doctors List of Writers.
      */
-    server.get({ path: 'writers', version: '1.0.0' }, allWritersV1);
-    server.get({ path: 'v1/writers', version: '1.0.0' }, allWritersV1);
-    function allWritersV1(req, res, next) {
-        Writer.all(connection).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/writers', allWritersV1);
+    server.get('/v1/writers', allWritersV1);
+    function allWritersV1(req, res) {
+        Writer.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -200,10 +199,10 @@ module.exports.init = function (server, connection) {
      * @apiSuccess {Number} id Writer ID.
      * @apiSuccess {String} name The Writer's name.
      */
-    server.get({ path: 'writers/:id', version: '1.0.0' }, writerByIDV1);
-    server.get({ path: 'v1/writers/:id', version: '1.0.0' }, writerByIDV1);
-    function writerByIDV1(req, res, next) {
-        Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res, next), processFailedQueryResults(res, next));
+    server.get('/writers/:id', writerByIDV1);
+    server.get('/v1/writers/:id', writerByIDV1);
+    function writerByIDV1(req, res) {
+        Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
 }

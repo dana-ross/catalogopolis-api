@@ -13,10 +13,11 @@
     "apidoc": "^0.17.5"
   },
   "dependencies": {
+    "express": "^4.14.1",
+    "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
     "memoizee": "^0.4.2",
     "mysql": "^2.13.0",
-    "restify": "^4.3.0",
     "sqlite3": "^3.1.8"
   },
   "apidoc": {

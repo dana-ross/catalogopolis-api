@@ -1,3 +1,8 @@
+/**
+ * @file GraphQL implementation
+ * @author Dave Ross <dave@davidmichaelross.com> 
+ */
+
 const graphql = require('graphql'),
     graphqlHTTP = require('express-graphql'),
     Doctor = require('./doctor'),

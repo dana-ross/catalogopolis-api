@@ -63,6 +63,30 @@ method.all = memoize(function (connection) {
 });
 
 /**
+ * Returns a single Director by the Director's name
+ * @param {object} connection SQLite connection
+ * @param {string} name The Director's name
+ * @returns {Promise} Single Director record
+ */
+method.forName = memoize(function (connection, name) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM directors WHERE name = ?', [name], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
  * Returns all Director objects for a given serial ID
  * @param {object} connection SQLite connection
  * @param {number} serialID Serial database ID

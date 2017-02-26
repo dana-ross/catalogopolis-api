@@ -1,6 +1,6 @@
 /**
  * @file Season class
- * @author Dave Ross <dave@davidmichaelross.com> 
+ * @author Dave Ross <dave@davidmichaelross.com>
  */
 
 const memoize = require('memoizee');

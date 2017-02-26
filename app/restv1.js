@@ -26,7 +26,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /doctors Retrieve all Doctors
      * @apiName GetDoctors
      * @apiGroup Doctor
-     * 
+     *
      * @apiSuccess {Object[]} doctors List of Doctors.
      */
     server.get('/doctors', allDoctorsV1);
@@ -39,9 +39,9 @@ module.exports.init = function (server, connection) {
      * @api {get} /doctors/:id Retrieve a single Doctor
      * @apiName GetDoctor
      * @apiGroup Doctor
-     * 
+     *
      * @apiParam {Number} id Doctor ID
-     * 
+     *
      * @apiSuccess {Number} id Doctor ID.
      * @apiSuccess {String} incarnation Incarnation name (i.e. "The War Doctor", "The Fifth Doctor").
      * @apiSuccess {String} actor Actor who portrayed this incarnation of The Doctor.
@@ -57,7 +57,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /serials Retrieve all Serials
      * @apiName GetSerials
      * @apiGroup Serial
-     * 
+     *
      * @apiSuccess {Object[]} doctors List of Serials.
      */
     server.get('/serials', allSerialsV1);
@@ -70,7 +70,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /serials/:id Retrieve a single Serial
      * @apiName GetSerial
      * @apiGroup Serial
-     * 
+     *
      * @apiParam {Number} id Serial ID
      */
     server.get('/serials/:id', serialByIDV1);
@@ -83,7 +83,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /serials/:id/doctors Retrieve all Doctors who appeared in a Serial
      * @apiName GetSerialDoctors
      * @apiGroup Serial
-     * 
+     *
      * @apiParam {Number} id Serial ID
      */
     server.get('/serials/:id/doctors', doctorsInSerialByIDV1);
@@ -96,7 +96,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /serials/:id/directors Retrieve all Directors of a Serial
      * @apiName GetSerialDirectors
      * @apiGroup Serial
-     * 
+     *
      * @apiParam {Number} id Serial ID
      */
     server.get('/serials/:id/directors', directorsOfSerialByIDV1);
@@ -109,7 +109,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /serials/:id/writers Retrieve all Writers of a Serial
      * @apiName GetSerialWriters
      * @apiGroup Serial
-     * 
+     *
      * @apiParam {Number} id Serial ID
      */
     server.get('/serials/:id/writers', writersOfSerialByIDV1);
@@ -122,7 +122,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /seasons Retrieve all Seasons
      * @apiName GetSeasons
      * @apiGroup Season
-     * 
+     *
      * @apiSuccess {Object[]} doctors List of Seasons.
      */
     server.get('/seasons', allSeasonsV1);
@@ -135,9 +135,9 @@ module.exports.init = function (server, connection) {
      * @api {get} /seasons/:id Retrieve a single Season
      * @apiName GetSeason
      * @apiGroup Season
-     * 
+     *
      * @apiParam {Number} id Season ID
-     * 
+     *
      * @apiSuccess {Number} id Season ID.
      * @apiSuccess {String} name What the season is called (i.e. "Season Two", "Series Four").
      */
@@ -151,7 +151,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /directors Retrieve all Directors
      * @apiName GetDirectors
      * @apiGroup Director
-     * 
+     *
      * @apiSuccess {Object[]} doctors List of Directors.
      */
     server.get('/directors', allDirectorsV1);
@@ -164,9 +164,9 @@ module.exports.init = function (server, connection) {
      * @api {get} /directors/:id Retrieve a single Director
      * @apiName GetDirector
      * @apiGroup Director
-     * 
+     *
      * @apiParam {Number} id Director ID
-     * 
+     *
      * @apiSuccess {Number} id Director ID.
      * @apiSuccess {String} name The Director's name.
      */
@@ -180,7 +180,7 @@ module.exports.init = function (server, connection) {
      * @api {get} /writers Retrieve all Writers
      * @apiName GetWriters
      * @apiGroup Writer
-     * 
+     *
      * @apiSuccess {Object[]} doctors List of Writers.
      */
     server.get('/writers', allWritersV1);
@@ -193,9 +193,9 @@ module.exports.init = function (server, connection) {
      * @api {get} /writers/:id Retrieve a single Writer
      * @apiName GetWriter
      * @apiGroup Writer
-     * 
+     *
      * @apiParam {Number} id Writer ID
-     * 
+     *
      * @apiSuccess {Number} id Writer ID.
      * @apiSuccess {String} name The Writer's name.
      */

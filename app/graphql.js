@@ -1,6 +1,6 @@
 /**
  * @file GraphQL implementation
- * @author Dave Ross <dave@davidmichaelross.com> 
+ * @author Dave Ross <dave@davidmichaelross.com>
  */
 
 const graphql = require('graphql'),

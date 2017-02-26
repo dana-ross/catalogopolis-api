@@ -1,4 +1,4 @@
-var Doctor = require('./doctor'),
+const Doctor = require('./doctor'),
     Serial = require('./serial'),
     Writer = require('./writer'),
     Director = require('./director'),

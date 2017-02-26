@@ -1,4 +1,4 @@
-var graphql = require('graphql'),
+const graphql = require('graphql'),
     graphqlHTTP = require('express-graphql'),
     Doctor = require('./doctor'),
     Director = require('./director'),

@@ -3,7 +3,7 @@
  * @author Dave Ross <dave@davidmichaelross.com> 
  */
 
-var express = require('express'),
+const express = require('express'),
     restv1 = require('./restv1'),
     sqlite3 = require('sqlite3').verbose(),
     graphql = require('./graphql');

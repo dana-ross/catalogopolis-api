@@ -6,8 +6,8 @@ const graphql = require('graphql'),
     Season = require('./season'),
     Serial = require('./serial');
 
-var objectIDsEqual = (x,y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
-    arrayAllSame = values => values.reduce((t,v,i,a) => t && objectIDsEqual(v, a[0]));
+const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
+      arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
 
 module.exports.init = function (server, connection) {
 
@@ -191,7 +191,7 @@ module.exports.init = function (server, connection) {
                             ).then(
                                 values => resolve(arrayAllSame(values) ? values[0] : null),
                                 reason => reject(reason)
-                            );
+                                );
                         })
                     },
                 },

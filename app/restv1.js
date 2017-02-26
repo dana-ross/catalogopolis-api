@@ -4,13 +4,13 @@ const Doctor = require('./doctor'),
     Director = require('./director'),
     Season = require('./season');
 
-function processSuccessfulQueryResults(res) {
+const processSuccessfulQueryResults = function(res) {
     return function (value) {
         res.send(value);
     }
 }
 
-function processFailedQueryResults(res) {
+const processFailedQueryResults = function(res) {
     return function (reason) {
         res.status(404).send('Error');
     }

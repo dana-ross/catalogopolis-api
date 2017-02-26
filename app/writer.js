@@ -106,9 +106,9 @@ method.fromRow = function (row) {
  * @return {string} REST API v1 endpoint URL
  * @static
  */
-method.restv1URL = function (id) {
+method.restv1URL = memoize(function (id) {
     return ("/v1/writers" + ((id !== undefined) ? ("/" + id) : ""));
-}
+});
 
 /**
  * Adds HATEAOS data to a Writer object

@@ -14,6 +14,24 @@ const graphql = require('graphql'),
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
 	arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
 
+/**
+ * Promises to only return the unique results of a set of Promises
+ *
+ * @param {Promise[]} promises
+ * @returns {Promise}
+ */
+function uniquePromiseResults(...promises) {
+	return new Promise(function (resolve, reject) {
+		Promise.all(
+			promises.filter(x => x !== null)
+		).then(
+			values => resolve(arrayAllSame(values) ? values[0] : null),
+			reason => reject(reason)
+			);
+	});
+}
+
+
 module.exports.init = function (server, connection) {
 
 	var doctorType = new graphql.GraphQLObjectType({
@@ -186,18 +204,11 @@ module.exports.init = function (server, connection) {
 						}
 					},
 					resolve: (root, { id, incarnation, actor }) => {
-						return new Promise(function (resolve, reject) {
-							Promise.all(
-								[
-									id ? Doctor.forID(connection, id) : null,
-									incarnation ? Doctor.forIncarnation(connection, incarnation) : null,
-									actor ? Doctor.forActor(connection, actor) : null
-								].filter(x => x !== null)
-							).then(
-								values => resolve(arrayAllSame(values) ? values[0] : null),
-								reason => reject(reason)
-								);
-						})
+						return uniquePromiseResults(
+							id ? Doctor.forID(connection, id) : null,
+							incarnation ? Doctor.forIncarnation(connection, incarnation) : null,
+							actor ? Doctor.forActor(connection, actor) : null
+						);
 					},
 				},
 				director: {
@@ -213,17 +224,10 @@ module.exports.init = function (server, connection) {
 						}
 					},
 					resolve: (root, { id, name }) => {
-						return new Promise(function (resolve, reject) {
-							Promise.all(
-								[
-									id ? Director.forID(connection, id) : null,
-									name ? Director.forName(connection, name) : null
-								].filter(x => x !== null)
-							).then(
-								values => resolve(arrayAllSame(values) ? values[0] : null),
-								reason => reject(reason)
-								);
-						})
+						return uniquePromiseResults(
+							id ? Director.forID(connection, id) : null,
+							name ? Director.forName(connection, name) : null
+						);
 					}
 				},
 				writer: {
@@ -232,15 +236,17 @@ module.exports.init = function (server, connection) {
 						id: {
 							description: 'Writer ID',
 							type: graphql.GraphQLID
+						},
+						name: {
+							description: 'Writer name',
+							type: graphql.GraphQLString
 						}
 					},
-					resolve: (root, { id }) => {
-						return new Promise(function (resolve, reject) {
-							Writer.forID(connection, id).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
-							);
-						})
+					resolve: (root, { id, name }) => {
+						return uniquePromiseResults(
+							id ? Writer.forID(connection, id) : null,
+							name ? Writer.forName(connection, name) : null
+						);
 					}
 				},
 				season: {

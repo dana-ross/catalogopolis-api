@@ -63,6 +63,30 @@ method.all = memoize(function (connection) {
 });
 
 /**
+ * Returns a single Writer by the Writers's name
+ * @param {object} connection SQLite connection
+ * @param {string} name The Writer's name
+ * @returns {Promise} Single Writer record
+ */
+method.forName = memoize(function (connection, name) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM writers WHERE name = ?', [name], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
  * Returns all Writer objects for a given writer ID
  * @param {object} connection SQLite connection
  * @param {number} serialID Writer database ID

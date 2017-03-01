@@ -255,15 +255,17 @@ module.exports.init = function (server, connection) {
 						id: {
 							description: 'Season ID',
 							type: graphql.GraphQLID
+						},
+						name: {
+							description: 'Season name',
+							type: graphql.GraphQLString
 						}
 					},
-					resolve: (root, { id }) => {
-						return new Promise(function (resolve, reject) {
-							Season.forID(connection, id).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
-							);
-						})
+					resolve: (root, { id, name }) => {
+						return uniquePromiseResults(
+							id ? Season.forID(connection, id) : null,
+							name ? Season.forName(connection, name) : null
+						);
 					}
 				},
 				serial: {
@@ -272,18 +274,17 @@ module.exports.init = function (server, connection) {
 						id: {
 							description: 'Serial ID',
 							type: graphql.GraphQLID
+						},
+						title: {
+							description: 'Serial title',
+							type: graphql.GraphQLString
 						}
 					},
-					resolve: (root, { id }) => {
-						return new Promise(function (resolve, reject) {
-							Serial.forID(connection, id).then(
-								(value) => {
-									value.season = value.seasonID;
-									resolve(value);
-								},
-								(reason) => reject(reason)
-							);
-						})
+					resolve: (root, { id, title }) => {
+						return uniquePromiseResults(
+							id ? Serial.forID(connection, id) : null,
+							title ? Serial.forTitle(connection, title) : null
+						);
 					}
 				}
 			}

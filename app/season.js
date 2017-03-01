@@ -40,6 +40,30 @@ method.forID = memoize(function (connection, id) {
 });
 
 /**
+ * Returns a single Season by the Season's name ("Season X", "Series X")
+ * @param {object} connection SQLite connection
+ * @param {string} name The Season's name
+ * @returns {Promise} Single Season record
+ */
+method.forName = memoize(function (connection, name) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM seasons WHERE name = ?', [name], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
  * Returns all Season objects in the system
  * @param {object} connection SQLite connection
  * @returns {Array} Array of Season objects

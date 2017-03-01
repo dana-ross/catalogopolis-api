@@ -40,6 +40,30 @@ method.forID = memoize(function (connection, id) {
 });
 
 /**
+ * Returns a single Season by the Serial's title
+ * @param {object} connection SQLite connection
+ * @param {string} name The Serial's name
+ * @returns {Promise} Single Serial record
+ */
+method.forTitle = memoize(function (connection, title) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM serials WHERE title = ?', [title], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
  * Returns all Serial objects in the system
  * @param {object} connection SQLite connection
  * @returns {Array} Array of Serial objects

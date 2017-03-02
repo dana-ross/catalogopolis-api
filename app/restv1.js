@@ -162,7 +162,7 @@ module.exports.init = function (server, connection) {
 
     /**
      * @api {get} /seasons/:id/serials Retrieve all serials in a single Season
-     * @apiName GetSeason
+     * @apiName GetSeasonSerials
      * @apiGroup Season
      *
      * @apiParam {Number} id Season ID
@@ -202,6 +202,19 @@ module.exports.init = function (server, connection) {
         Director.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
+	/**
+     * @api {get} /directors/:id/serials Retrieve all serials by a Director
+     * @apiName GetSerialsForDirector
+     * @apiGroup Director
+     *
+     * @apiParam {Number} id Director ID
+     */
+    server.get('/directors/:id/serials', serialsForDirectorV1);
+    server.get('/v1/directors/:id/serials', serialsForDirectorV1);
+    function serialsForDirectorV1(req, res) {
+        Director.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
     /**
      * @api {get} /writers Retrieve all Writers
      * @apiName GetWriters
@@ -229,6 +242,19 @@ module.exports.init = function (server, connection) {
     server.get('/v1/writers/:id', writerByIDV1);
     function writerByIDV1(req, res) {
         Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+	/**
+     * @api {get} /writers/:id/serials Retrieve all serials by a Director
+     * @apiName GetSerialsForWriter
+     * @apiGroup Writer
+     *
+     * @apiParam {Number} id Writer ID
+     */
+    server.get('/writers/:id/serials', serialsForWriterV1);
+    server.get('/v1/writers/:id/serials', serialsForWriterV1);
+    function serialsForWriterV1(req, res) {
+        Writer.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
 }

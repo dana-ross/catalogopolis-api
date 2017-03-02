@@ -79,6 +79,18 @@ module.exports.init = function (server, connection) {
 				name: {
 					type: graphql.GraphQLString,
 					description: 'Director name'
+				},
+				serials: {
+					type: new graphql.GraphQLList(serialType),
+					description: 'Serials',
+					resolve: (parent) => {
+						return new Promise(function (resolve, reject) {
+							Director.serials(connection, parent.id).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
 				}
 			}
 		}
@@ -96,6 +108,18 @@ module.exports.init = function (server, connection) {
 				name: {
 					type: graphql.GraphQLString,
 					description: 'Writer name'
+				},
+				serials: {
+					type: new graphql.GraphQLList(serialType),
+					description: 'Serials',
+					resolve: (parent) => {
+						return new Promise(function (resolve, reject) {
+							Writer.serials(connection, parent.id).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
 				}
 			}
 		}

@@ -3,7 +3,8 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-const memoize = require('memoizee');
+const memoize = require('memoizee'),
+	  Serial = require('./serial');
 
 var method = Director.prototype;
 
@@ -99,6 +100,31 @@ method.forSerialID = memoize(function (connection, serialID) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+
+});
+
+/**
+ * Returns all Serial objects for a given Director ID
+ * @param {object} connection SQLite connection
+ * @param {number} directorID Director database ID
+ * @returns {Array} Array of Serial objects
+ */
+method.serials = memoize(function (connection, directorID) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT serials.* FROM serials INNER JOIN serials_directors ON serials.id = serials_directors.serial_id INNER JOIN directors ON serials_directors.director_id = directors.id WHERE directors.id = ? ORDER BY serials.id', [directorID], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map(function (x) { return Serial.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);

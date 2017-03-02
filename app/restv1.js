@@ -54,6 +54,19 @@ module.exports.init = function (server, connection) {
     }
 
     /**
+     * @api {get} /doctors/:id/serials Retrieve all serials featuring a Doctor
+     * @apiName GetSerialsForDoctor
+     * @apiGroup Doctor
+     *
+     * @apiParam {Number} id Doctor ID
+     */
+    server.get('/doctors/:id/serials', serialsForDoctorV1);
+    server.get('/v1/doctors/:id/serials', serialsForDoctorV1);
+    function serialsForDoctorV1(req, res) {
+        Doctor.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+    /**
      * @api {get} /serials Retrieve all Serials
      * @apiName GetSerials
      * @apiGroup Serial
@@ -148,6 +161,19 @@ module.exports.init = function (server, connection) {
     }
 
     /**
+     * @api {get} /seasons/:id/serials Retrieve all serials in a single Season
+     * @apiName GetSeasonSerials
+     * @apiGroup Season
+     *
+     * @apiParam {Number} id Season ID
+     */
+    server.get('/seasons/:id/serials', serialsInSeasonV1);
+    server.get('/v1/seasons/:id/serials', serialsInSeasonV1);
+    function serialsInSeasonV1(req, res) {
+        Season.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+    /**
      * @api {get} /directors Retrieve all Directors
      * @apiName GetDirectors
      * @apiGroup Director
@@ -174,6 +200,19 @@ module.exports.init = function (server, connection) {
     server.get('/v1/directors/:id', directorByIDV1);
     function directorByIDV1(req, res) {
         Director.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+	/**
+     * @api {get} /directors/:id/serials Retrieve all serials by a Director
+     * @apiName GetSerialsForDirector
+     * @apiGroup Director
+     *
+     * @apiParam {Number} id Director ID
+     */
+    server.get('/directors/:id/serials', serialsForDirectorV1);
+    server.get('/v1/directors/:id/serials', serialsForDirectorV1);
+    function serialsForDirectorV1(req, res) {
+        Director.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**
@@ -203,6 +242,19 @@ module.exports.init = function (server, connection) {
     server.get('/v1/writers/:id', writerByIDV1);
     function writerByIDV1(req, res) {
         Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+	/**
+     * @api {get} /writers/:id/serials Retrieve all serials by a Director
+     * @apiName GetSerialsForWriter
+     * @apiGroup Writer
+     *
+     * @apiParam {Number} id Writer ID
+     */
+    server.get('/writers/:id/serials', serialsForWriterV1);
+    server.get('/v1/writers/:id/serials', serialsForWriterV1);
+    function serialsForWriterV1(req, res) {
+        Writer.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
 }

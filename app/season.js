@@ -3,7 +3,8 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-const memoize = require('memoizee');
+const memoize = require('memoizee'),
+	  Serial = require('./serial');
 
 var method = Season.prototype;
 
@@ -37,6 +38,55 @@ method.forID = memoize(function (connection, id) {
             }
         });
     });
+});
+
+/**
+ * Returns a single Season by the Season's name ("Season X", "Series X")
+ * @param {object} connection SQLite connection
+ * @param {string} name The Season's name
+ * @returns {Promise} Single Season record
+ */
+method.forName = memoize(function (connection, name) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT * FROM seasons WHERE name = ?', [name], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(self.fromRow(rows[0]).addHATEAOS());
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
+ * Returns all Serial objects for a given Season ID
+ * @param {object} connection SQLite connection
+ * @param {number} seasonID Season database ID
+ * @returns {Array} Array of Serial objects
+ */
+method.serials = memoize(function (connection, seasonID) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT serials.* FROM serials WHERE serials.season_id = ? ORDER BY serials.id', [seasonID], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map(function (x) { return Serial.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+
 });
 
 /**

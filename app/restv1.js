@@ -245,7 +245,7 @@ module.exports.init = function (server, connection) {
     }
 
 	/**
-     * @api {get} /writers/:id/serials Retrieve all serials by a Director
+     * @api {get} /writers/:id/serials Retrieve all serials by a Writer
      * @apiName GetSerialsForWriter
      * @apiGroup Writer
      *

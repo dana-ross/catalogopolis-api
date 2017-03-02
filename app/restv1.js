@@ -161,6 +161,19 @@ module.exports.init = function (server, connection) {
     }
 
     /**
+     * @api {get} /seasons/:id/serials Retrieve all serials in a single Season
+     * @apiName GetSeason
+     * @apiGroup Season
+     *
+     * @apiParam {Number} id Season ID
+     */
+    server.get('/seasons/:id/serials', serialsInSeasonV1);
+    server.get('/v1/seasons/:id/serials', serialsInSeasonV1);
+    function serialsInSeasonV1(req, res) {
+        Season.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+    /**
      * @api {get} /directors Retrieve all Directors
      * @apiName GetDirectors
      * @apiGroup Director

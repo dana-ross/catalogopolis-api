@@ -3,7 +3,8 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-const memoize = require('memoizee');
+const memoize = require('memoizee'),
+	  Serial = require('./serial');
 
 var method = Doctor.prototype;
 
@@ -123,6 +124,31 @@ method.forSerialID = memoize(function (connection, serialID) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(rows.map(function (x) { return self.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+
+});
+
+/**
+ * Returns all Serial objects for a given Doctor ID
+ * @param {object} connection SQLite connection
+ * @param {number} doctorID Doctor database ID
+ * @returns {Array} Array of Serial objects
+ */
+method.serials = memoize(function (connection, doctorID) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT serials.* FROM serials INNER JOIN serials_doctors ON serials.id = serials_doctors.serial_id INNER JOIN doctors ON serials_doctors.doctor_id = doctors.id WHERE doctors.id = ? ORDER BY serials.id', [doctorID], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map(function (x) { return Serial.fromRow(x).addHATEAOS(); }, rows));
                 }
                 else {
                     resolve([]);

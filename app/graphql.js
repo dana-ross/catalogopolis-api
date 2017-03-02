@@ -50,6 +50,18 @@ module.exports.init = function (server, connection) {
 				actor: {
 					type: graphql.GraphQLString,
 					description: 'Name of the actor who portrayed this incarnation of The Doctor'
+				},
+				serials: {
+					type: new graphql.GraphQLList(serialType),
+					description: 'Serials',
+					resolve: (parent) => {
+						return new Promise(function (resolve, reject) {
+							Doctor.serials(connection, parent.id).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
 				}
 			}
 		}

@@ -54,6 +54,19 @@ module.exports.init = function (server, connection) {
     }
 
     /**
+     * @api {get} /doctors/:id/serials Retrieve all serials featuring a Doctor
+     * @apiName GetSerialsForDoctor
+     * @apiGroup Doctor
+     *
+     * @apiParam {Number} id Doctor ID
+     */
+    server.get('/doctors/:id/serials', serialsForDoctorV1);
+    server.get('/v1/doctors/:id/serials', serialsForDoctorV1);
+    function serialsForDoctorV1(req, res) {
+        Doctor.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+    /**
      * @api {get} /serials Retrieve all Serials
      * @apiName GetSerials
      * @apiGroup Serial

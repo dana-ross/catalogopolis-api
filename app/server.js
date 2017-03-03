@@ -8,7 +8,7 @@ const express = require('express'),
     sqlite3 = require('sqlite3').verbose(),
     graphql = require('./graphql');
 
-var connection = new sqlite3.Database('/code/catalogopolis-api.sqlite', sqlite3.OPEN_READONLY);
+var connection = new sqlite3.Database('catalogopolis-api.sqlite', sqlite3.OPEN_READONLY);
 
 var server = express();
 

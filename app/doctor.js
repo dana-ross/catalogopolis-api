@@ -4,7 +4,8 @@
  */
 
 const memoize = require('memoizee'),
-	  Serial = require('./serial');
+	  Serial = require('./serial'),
+	  Actor = require('./actor');
 
 var method = Doctor.prototype;
 
@@ -13,7 +14,7 @@ var method = Doctor.prototype;
  * @class
  */
 function Doctor() {
-    var id, incarnation, actor;
+    var id, incarnation, primaryActorID;
 }
 
 /**
@@ -67,13 +68,13 @@ method.forIncarnation = memoize(function (connection, incarnation) {
 /**
  * Returns a single Doctor object for a given database ID
  * @param {object} connection SQLite connection
- * @param {number} id Doctor database ID
+ * @param {number} primaryActorID Doctor database ID
  * @returns {Promise} Single Doctor record
  */
-method.forActor = memoize(function (connection, actor) {
+method.forPrimaryActorID = memoize(function (connection, primaryActorID) {
     var self = this;
     return new Promise(function (resolve, reject) {
-        connection.all('SELECT * FROM doctors WHERE actor = ?', [actor], function (err, rows, fields) {
+        connection.all('SELECT * FROM doctors WHERE primary_actor = ?', [primaryActorID], function (err, rows, fields) {
             if (!err) {
                 if (rows && rows.length) {
                     resolve(self.fromRow(rows[0]).addHATEAOS());
@@ -86,6 +87,31 @@ method.forActor = memoize(function (connection, actor) {
             }
         });
     });
+});
+
+/**
+ * Returns all Actor objects for a given Doctor ID
+ * @param {object} connection SQLite connection
+ * @param {number} doctorID Doctor database ID
+ * @returns {Array} Array of Actor objects
+ */
+method.actors = memoize(function (connection, doctorID) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+        connection.all('SELECT actors.* FROM actors INNER JOIN doctors ON actors.id = doctors.primary_actor WHERE doctors.id = ? ORDER BY actors.id', [doctorID], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map(function (x) { return Actor.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+
 });
 
 /**
@@ -171,7 +197,7 @@ method.fromRow = function (row) {
     var doctor = new Doctor();
     row.id ? (doctor.id = row.id) : undefined;
     row.incarnation ? (doctor.incarnation = row.incarnation) : undefined;
-    row.actor ? (doctor.actor = row.actor) : undefined;
+    row.primary_actor ? (doctor.primaryActorID = row.primary_actor) : undefined;
     return doctor;
 }
 

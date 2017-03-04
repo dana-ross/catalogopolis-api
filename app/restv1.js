@@ -2,7 +2,8 @@ const Doctor = require('./doctor'),
     Serial = require('./serial'),
     Writer = require('./writer'),
     Director = require('./director'),
-    Season = require('./season');
+    Season = require('./season'),
+	Actor = require('./actor');
 
 const processSuccessfulQueryResults = (res) => {
     return function (value) {
@@ -44,7 +45,7 @@ module.exports.init = function (server, connection) {
      *
      * @apiSuccess {Number} id Doctor ID.
      * @apiSuccess {String} incarnation Incarnation name (i.e. "The War Doctor", "The Fifth Doctor").
-     * @apiSuccess {String} actor Actor who portrayed this incarnation of The Doctor.
+     * @apiSuccess {String} primaryActor Actor who usually portrayed this incarnation of The Doctor.
      */
     server.get('/doctors/:id', doctorByIDV1);
     server.get('/v1/doctors/:id', doctorByIDV1);
@@ -64,6 +65,19 @@ module.exports.init = function (server, connection) {
     server.get('/v1/doctors/:id/serials', serialsForDoctorV1);
     function serialsForDoctorV1(req, res) {
         Doctor.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+    }
+
+	/**
+     * @api {get} /doctors/:id/actors Retrieve all actors who portrayed a Doctor
+     * @apiName GetActorsForDoctor
+     * @apiGroup Doctor
+     *
+     * @apiParam {Number} id Doctor ID
+     */
+    server.get('/doctors/:id/actors', actorsForDoctorV1);
+    server.get('/v1/doctors/:id/actors', actorsForDoctorV1);
+    function actorsForDoctorV1(req, res) {
+        Doctor.actors(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
     }
 
     /**

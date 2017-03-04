@@ -9,7 +9,8 @@ const graphql = require('graphql'),
 	Director = require('./director'),
 	Writer = require('./writer'),
 	Season = require('./season'),
-	Serial = require('./serial');
+	Serial = require('./serial'),
+	Actor = require('./actor');
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
 	arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
@@ -34,22 +35,47 @@ function uniquePromiseResults(...promises) {
 
 module.exports.init = function (server, connection) {
 
+	var actorType = new graphql.GraphQLObjectType({
+		name: 'Actor',
+		description: 'An actor',
+		fields: function () {
+			return {
+				id: {
+					type: graphql.GraphQLID,
+					description: 'Actor ID'
+				},
+				name: {
+					type: graphql.GraphQLString,
+					description: 'Actor name'
+				}
+			}
+		}
+	});
+
 	var doctorType = new graphql.GraphQLObjectType({
 		name: 'Doctor',
 		description: 'A single incarnation of The Doctor',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLInt,
+					type: graphql.GraphQLID,
 					description: 'Doctor ID'
 				},
 				incarnation: {
 					type: graphql.GraphQLString,
 					description: 'Name of this incarnation of The Doctor'
 				},
-				actor: {
-					type: graphql.GraphQLString,
-					description: 'Name of the actor who portrayed this incarnation of The Doctor'
+				primaryActor: {
+					type: actorType,
+					description: 'The actor who usually portrayed this incarnation of The Doctor',
+					resolve: (parent) => {
+						return new Promise((resolve, reject) => {
+							Actor.forID(connection, parent.primaryActorID).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
 				},
 				serials: {
 					type: new graphql.GraphQLList(serialType),
@@ -246,16 +272,16 @@ module.exports.init = function (server, connection) {
 							description: 'Name of this incarnation of The Doctor',
 							type: graphql.GraphQLString
 						},
-						actor: {
-							description: 'Name of the actor who portrayed this incarnation of The Doctor',
-							type: graphql.GraphQLString
+						primaryActorID: {
+							description: 'The actor who usually portrayed this incarnation of The Doctor',
+							type: graphql.GraphQLID
 						}
 					},
-					resolve: (root, { id, incarnation, actor }) => {
+					resolve: (root, { id, incarnation, primaryActorID }) => {
 						return uniquePromiseResults(
 							id ? Doctor.forID(connection, id) : null,
 							incarnation ? Doctor.forIncarnation(connection, incarnation) : null,
-							actor ? Doctor.forActor(connection, actor) : null
+							primaryActorID ? Doctor.forPrimaryActor(connection, primaryActorID) : null
 						);
 					},
 				},

@@ -53,7 +53,6 @@ module.exports.init = function (server, connection) {
 	server.get('/v1/doctors/:id', doctorByIDV1);
 
 	function doctorByIDV1(req, res) {
-		console.log(req);
 		Doctor.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 

@@ -280,7 +280,7 @@ module.exports.init = function (server, connection) {
 					description: 'Doctor(s) who appeared in this episode',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
-							Doctor.forSerial(connection, parent.id).then(
+							Doctor.forSerialID(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
 							)

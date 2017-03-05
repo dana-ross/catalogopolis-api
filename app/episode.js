@@ -68,7 +68,7 @@ method.all = memoize((connection) => {
 /**
  * Returns all Episode objects for a given serial ID
  * @param {object} connection SQLite connection
- * @param {number} serialID Writer database ID
+ * @param {number} serialID Serial database ID
  * @returns {Array} Array of Episode objects
  */
 method.forSerialID = memoize((connection, serialID) => {
@@ -87,6 +87,75 @@ method.forSerialID = memoize((connection, serialID) => {
         });
     });
 
+});
+
+/**
+ * Returns all Episode objects with a given title
+ * @param {object} connection SQLite connection
+ * @param {string} title Episode title
+ * @returns {Array} Array of Episode objects
+ */
+method.forTitle = memoize((connection, title) => {
+	return new Promise((resolve, reject) => {
+        connection.all('SELECT episodes.* FROM episodes WHERE episodes.title = ?', [title], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map((x) => { return Episode.prototype.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
+ * Returns all Episode objects that premiered on a given date
+ * @param {object} connection SQLite connection
+ * @param {string} originalAirDate Original air date
+ * @returns {Array} Array of Episode objects
+ */
+method.forOriginalAirDate = memoize((connection, originalAirDate) => {
+	return new Promise((resolve, reject) => {
+        connection.all('SELECT episodes.* FROM episodes WHERE episodes.original_air_date = ?', [originalAirDate], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map((x) => { return Episode.prototype.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
+});
+
+/**
+ * Returns all Episode objects with a given "missing" status
+ * @param {object} connection SQLite connection
+ * @param {boolean} missing "Missing" status
+ * @returns {Array} Array of Episode objects
+ */
+method.forMissingStatus = memoize((connection, missing) => {
+	return new Promise((resolve, reject) => {
+        connection.all('SELECT episodes.* FROM episodes WHERE episodes.missing = ?', [(true && missing)], function (err, rows, fields) {
+            if (!err) {
+                if (rows && rows.length) {
+                    resolve(rows.map((x) => { return Episode.prototype.fromRow(x).addHATEAOS(); }, rows));
+                }
+                else {
+                    resolve([]);
+                }
+            } else {
+                reject({ error: { message: 'Error while performing Query.' } });
+            }
+        });
+    });
 });
 
 /**

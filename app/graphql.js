@@ -10,7 +10,8 @@ const graphql = require('graphql'),
 	Writer = require('./writer'),
 	Season = require('./season'),
 	Serial = require('./serial'),
-	Actor = require('./actor');
+	Actor = require('./actor'),
+	Episode = require('./episode');
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
 	arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
@@ -151,6 +152,63 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
+	var episodeType = new graphql.GraphQLObjectType({
+		name: 'Episode',
+		description: 'An episode of a Serial, or a single episode of the show',
+		fields: function () {
+			return {
+				id: {
+					type: graphql.GraphQLID,
+					description: 'Episode ID'
+				},
+				title: {
+					type: graphql.GraphQLString,
+					description: 'Episode title'
+				},
+				serial: {
+					type: serialType,
+					description: 'Serial this Episode appears in',
+					resolve: (parent) => {
+						return new Promise((resolve, reject) => {
+							Serial.forID(connection, parent.serialID).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
+				},
+				episodeOrder: {
+					type: graphql.GraphQLInt,
+					description: 'Episode order within a serial'
+				},
+				originalAirDate: {
+					type: graphql.GraphQLString,
+					description: 'Original air date (yyyy-mm-dd)'
+				},
+				runtime: {
+					type: graphql.GraphQLString,
+					description: 'Original running time (hh:mm)'
+				},
+				ukViewersMM: {
+					type: graphql.GraphQLFloat,
+					description: 'UK viewers (millions) of the first showing'
+				},
+				appreciationIndex: {
+					type: graphql.GraphQLInt,
+					description: 'Appreciation Index of the first showing'
+				},
+				missing: {
+					type: graphql.GraphQLBoolean,
+					description: 'Whether the episode is currently missing'
+				},
+				recreated: {
+					type: graphql.GraphQLBoolean,
+					description: 'Whether a missing episode has been officially re-created (such as the animated re-creations)'
+				}
+			}
+		}
+	});
+
 	var seasonType = new graphql.GraphQLObjectType({
 		name: 'Season',
 		description: 'A season of the show',
@@ -252,6 +310,18 @@ module.exports.init = function (server, connection) {
 							)
 						});
 					}
+				},
+				episodes: {
+					type: new graphql.GraphQLList(episodeType),
+					description: 'Episodes in this serial',
+					resolve: (parent) => {
+						return new Promise((resolve, reject) => {
+							Episode.forSerialID(connection, parent.id).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						});
+					}
 				}
 			}
 		}
@@ -341,6 +411,36 @@ module.exports.init = function (server, connection) {
 							name ? Season.forName(connection, name) : null
 						);
 					}
+				},
+				episode: {
+					type: episodeType,
+					args: {
+						id: {
+							description: 'Episode ID',
+							type: graphql.GraphQLID
+						},
+						title: {
+							description: 'Episode Title',
+							type: graphql.GraphQLString
+						},
+						originalAirDate: {
+							description: 'Original air date (yyyy-mm-dd)',
+							type: graphql.GraphQLString
+						},
+						missing: {
+							description: 'If the episode is currently missing',
+							type: graphql.GraphQLBoolean
+						},
+
+					},
+					resolve: (root, {id, title, originalAirDate, missing}) => {
+							return uniquePromiseResults(
+								id ? Episode.forID(connection, id) : null,
+								title ? Episode.forTitle(connection, title) : null,
+								originalAirDate ? Episode.forOriginalAirDate(connection, originalAirDate) : null,
+								missing ? Episode.forMissingStatus(connection, missing) : null
+							);
+						}
 				},
 				serial: {
 					type: serialType,

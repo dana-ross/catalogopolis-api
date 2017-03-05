@@ -276,7 +276,7 @@ module.exports.init = function (server, connection) {
 					description: 'Serial production code'
 				},
 				doctors: {
-					type: doctorType,
+					type: new graphql.GraphQLList(doctorType),
 					description: 'Doctor(s) who appeared in this episode',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {

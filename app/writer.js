@@ -88,9 +88,9 @@ method.forName = memoize(function (connection, name) {
 });
 
 /**
- * Returns all Writer objects for a given writer ID
+ * Returns all Writer objects for a given Serial ID
  * @param {object} connection SQLite connection
- * @param {number} serialID Writer database ID
+ * @param {number} serialID Serial database ID
  * @returns {Array} Array of Writer objects
  */
 method.forSerialID = memoize(function (connection, serialID) {

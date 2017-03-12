@@ -7,4 +7,4 @@ RUN npm install
 ADD . /code
 RUN node install.js
 EXPOSE 5000
-CMD ["node", "app/server.js"]
+CMD ["node", "app/dist/bundle.js"]

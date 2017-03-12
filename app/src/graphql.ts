@@ -3,15 +3,24 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-const graphql = require('graphql'),
-	graphqlHTTP = require('express-graphql'),
-	Doctor = require('./doctor'),
-	Director = require('./director'),
-	Writer = require('./writer'),
-	Season = require('./season'),
-	Serial = require('./serial'),
-	Actor = require('./actor'),
-	Episode = require('./episode');
+// const graphql = require('graphql'),
+// 	graphqlHTTP = require('express-graphql'),
+// 	Doctor = require('./doctor'),
+// 	Director = require('./director'),
+// 	Writer = require('./writer'),
+// 	Season = require('./season'),
+// 	Serial = require('./serial'),
+// 	Actor = require('./actor'),
+// 	Episode = require('./episode');
+
+import {graphqlHTTP, GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean} from "graphql"
+import {Doctor} from "./doctor"
+import {Director} from "./director"
+import {Writer} from "./writer"
+import {Season} from "./season"
+import {Serial} from "./serial"
+import {Actor} from "./actor"
+import {Episode} from "./episode"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
 	arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
@@ -34,36 +43,36 @@ function uniquePromiseResults(...promises) {
 }
 
 
-module.exports.init = function (server, connection) {
+export default function (server, connection) {
 
-	var actorType = new graphql.GraphQLObjectType({
+	var actorType = new GraphQLObjectType({
 		name: 'Actor',
 		description: 'An actor',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Actor ID'
 				},
 				name: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Actor name'
 				}
 			}
 		}
 	});
 
-	var doctorType = new graphql.GraphQLObjectType({
+	var doctorType = new GraphQLObjectType({
 		name: 'Doctor',
 		description: 'A single incarnation of The Doctor',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Doctor ID'
 				},
 				incarnation: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Name of this incarnation of The Doctor'
 				},
 				primaryActor: {
@@ -79,7 +88,7 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				serials: {
-					type: new graphql.GraphQLList(serialType),
+					type: new GraphQLList(serialType),
 					description: 'Serials',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -94,21 +103,21 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
-	var directorType = new graphql.GraphQLObjectType({
+	var directorType = new GraphQLObjectType({
 		name: 'Director',
 		description: 'The director of an episode',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Director ID'
 				},
 				name: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Director name'
 				},
 				serials: {
-					type: new graphql.GraphQLList(serialType),
+					type: new GraphQLList(serialType),
 					description: 'Serials',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -123,21 +132,21 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
-	var writerType = new graphql.GraphQLObjectType({
+	var writerType = new GraphQLObjectType({
 		name: 'Writer',
 		description: 'The writer of an episode',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Writer ID'
 				},
 				name: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Writer name'
 				},
 				serials: {
-					type: new graphql.GraphQLList(serialType),
+					type: new GraphQLList(serialType),
 					description: 'Serials',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -152,17 +161,17 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
-	var episodeType = new graphql.GraphQLObjectType({
+	var episodeType = new GraphQLObjectType({
 		name: 'Episode',
 		description: 'An episode of a Serial, or a single episode of the show',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Episode ID'
 				},
 				title: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Episode title'
 				},
 				serial: {
@@ -178,52 +187,52 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				episodeOrder: {
-					type: graphql.GraphQLInt,
+					type: GraphQLInt,
 					description: 'Episode order within a serial'
 				},
 				originalAirDate: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Original air date (yyyy-mm-dd)'
 				},
 				runtime: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Original running time (hh:mm)'
 				},
 				ukViewersMM: {
-					type: graphql.GraphQLFloat,
+					type: GraphQLFloat,
 					description: 'UK viewers (millions) of the first showing'
 				},
 				appreciationIndex: {
-					type: graphql.GraphQLInt,
+					type: GraphQLInt,
 					description: 'Appreciation Index of the first showing'
 				},
 				missing: {
-					type: graphql.GraphQLBoolean,
+					type: GraphQLBoolean,
 					description: 'Whether the episode is currently missing'
 				},
 				recreated: {
-					type: graphql.GraphQLBoolean,
+					type: GraphQLBoolean,
 					description: 'Whether a missing episode has been officially re-created (such as the animated re-creations)'
 				}
 			}
 		}
 	});
 
-	var seasonType = new graphql.GraphQLObjectType({
+	var seasonType = new GraphQLObjectType({
 		name: 'Season',
 		description: 'A season of the show',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Season ID'
 				},
 				name: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Season name'
 				},
 				serials: {
-					type: new graphql.GraphQLList(serialType),
+					type: new GraphQLList(serialType),
 					description: 'Serials',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -238,13 +247,13 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
-	var serialType = new graphql.GraphQLObjectType({
+	var serialType = new GraphQLObjectType({
 		name: 'Serial',
 		description: 'A serial or single episode',
 		fields: function () {
 			return {
 				id: {
-					type: graphql.GraphQLID,
+					type: GraphQLID,
 					description: 'Serial ID'
 				},
 				season: {
@@ -260,23 +269,23 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				story: {
-					type: graphql.GraphQLInt,
+					type: GraphQLInt,
 					description: 'Story number'
 				},
 				serial: {
-					type: graphql.GraphQLInt,
+					type: GraphQLInt,
 					description: 'Serial episode number'
 				},
 				title: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Serial title'
 				},
 				productionCode: {
-					type: graphql.GraphQLString,
+					type: GraphQLString,
 					description: 'Serial production code'
 				},
 				doctors: {
-					type: new graphql.GraphQLList(doctorType),
+					type: new GraphQLList(doctorType),
 					description: 'Doctor(s) who appeared in this episode',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -288,7 +297,7 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				directors: {
-					type: new graphql.GraphQLList(directorType),
+					type: new GraphQLList(directorType),
 					description: 'Directors of this serial',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -300,7 +309,7 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				writers: {
-					type: new graphql.GraphQLList(writerType),
+					type: new GraphQLList(writerType),
 					description: 'Writers of this serial',
 					resolve: (parent) => {
 						return new Promise(function (resolve, reject) {
@@ -312,7 +321,7 @@ module.exports.init = function (server, connection) {
 					}
 				},
 				episodes: {
-					type: new graphql.GraphQLList(episodeType),
+					type: new GraphQLList(episodeType),
 					description: 'Episodes in this serial',
 					resolve: (parent) => {
 						return new Promise((resolve, reject) => {
@@ -327,8 +336,8 @@ module.exports.init = function (server, connection) {
 		}
 	});
 
-	var schema = new graphql.GraphQLSchema({
-		query: new graphql.GraphQLObjectType({
+	var schema = new GraphQLSchema({
+		query: new GraphQLObjectType({
 			name: 'RootQueryType',
 			fields: {
 				doctor: {
@@ -336,22 +345,22 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Doctor ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						incarnation: {
 							description: 'Name of this incarnation of The Doctor',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						},
 						primaryActorID: {
 							description: 'The actor who usually portrayed this incarnation of The Doctor',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						}
 					},
 					resolve: (root, { id, incarnation, primaryActorID }) => {
 						return uniquePromiseResults(
 							id ? Doctor.forID(connection, id) : null,
 							incarnation ? Doctor.forIncarnation(connection, incarnation) : null,
-							primaryActorID ? Doctor.forPrimaryActor(connection, primaryActorID) : null
+							primaryActorID ? Doctor.forPrimaryActorID(connection, primaryActorID) : null
 						);
 					},
 				},
@@ -360,11 +369,11 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Director ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						name: {
 							description: 'Director name',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						}
 					},
 					resolve: (root, { id, name }) => {
@@ -379,11 +388,11 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Writer ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						name: {
 							description: 'Writer name',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						}
 					},
 					resolve: (root, { id, name }) => {
@@ -398,11 +407,11 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Season ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						name: {
 							description: 'Season name',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						}
 					},
 					resolve: (root, { id, name }) => {
@@ -417,19 +426,19 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Episode ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						title: {
 							description: 'Episode Title',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						},
 						originalAirDate: {
 							description: 'Original air date (yyyy-mm-dd)',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						},
 						missing: {
 							description: 'If the episode is currently missing',
-							type: graphql.GraphQLBoolean
+							type: GraphQLBoolean
 						},
 
 					},
@@ -447,11 +456,11 @@ module.exports.init = function (server, connection) {
 					args: {
 						id: {
 							description: 'Serial ID',
-							type: graphql.GraphQLID
+							type: GraphQLID
 						},
 						title: {
 							description: 'Serial title',
-							type: graphql.GraphQLString
+							type: GraphQLString
 						}
 					},
 					resolve: (root, { id, title }) => {

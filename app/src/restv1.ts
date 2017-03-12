@@ -1,18 +1,19 @@
-const Doctor = require('./doctor'),
-	Serial = require('./serial'),
-	Writer = require('./writer'),
-	Director = require('./director'),
-	Season = require('./season'),
-	Actor = require('./actor'),
-	Episode = require('./episode');
+import { Doctor } from "./doctor"
+import { Serial } from "./serial"
+import { Writer } from "./writer"
+import { Director } from "./director"
+import { Season } from "./season"
+import { Actor } from "./actor"
+import { Episode } from "./episode"
+import { Request, Response } from "express"
 
-const processSuccessfulQueryResults = (res) => {
-	return function (value) {
+const processSuccessfulQueryResults = (res: Response) => {
+	return function (value: any) {
 		res.send(value);
 	}
 }
 
-const processFailedQueryResults = (res) => {
+const processFailedQueryResults = (res: Response) => {
 	return function (reason) {
 		res.status(404).send('Error');
 	}
@@ -22,7 +23,7 @@ const processFailedQueryResults = (res) => {
  * Set up routes and handlers for the v1 REST API
  * @param server {object} Restify server object
  */
-module.exports.init = function (server, connection) {
+export default function (server, connection) {
 
 	/**
 	 * @api {get} /doctors Retrieve all Doctors
@@ -34,7 +35,7 @@ module.exports.init = function (server, connection) {
 	server.get('/doctors', allDoctorsV1);
 	server.get('/v1/doctors', allDoctorsV1);
 
-	function allDoctorsV1(req, res) {
+	function allDoctorsV1(req: Request, res: Response) {
 		Doctor.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -52,7 +53,7 @@ module.exports.init = function (server, connection) {
 	server.get('/doctors/:id', doctorByIDV1);
 	server.get('/v1/doctors/:id', doctorByIDV1);
 
-	function doctorByIDV1(req, res) {
+	function doctorByIDV1(req: Request, res: Response) {
 		Doctor.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -66,7 +67,7 @@ module.exports.init = function (server, connection) {
 	server.get('/doctors/:id/serials', serialsForDoctorV1);
 	server.get('/v1/doctors/:id/serials', serialsForDoctorV1);
 
-	function serialsForDoctorV1(req, res) {
+	function serialsForDoctorV1(req: Request, res: Response) {
 		Doctor.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -80,7 +81,7 @@ module.exports.init = function (server, connection) {
 	server.get('/doctors/:id/actors', actorsForDoctorV1);
 	server.get('/v1/doctors/:id/actors', actorsForDoctorV1);
 
-	function actorsForDoctorV1(req, res) {
+	function actorsForDoctorV1(req: Request, res: Response) {
 		Doctor.actors(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -94,7 +95,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials', allSerialsV1);
 	server.get('/v1/serials', allSerialsV1);
 
-	function allSerialsV1(req, res) {
+	function allSerialsV1(req: Request, res: Response) {
 		Serial.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -108,7 +109,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials/:id', serialByIDV1);
 	server.get('/v1/serials/:id', serialByIDV1);
 
-	function serialByIDV1(req, res) {
+	function serialByIDV1(req: Request, res: Response) {
 		Serial.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -122,7 +123,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials/:id/doctors', doctorsInSerialByIDV1);
 	server.get('/v1/serials/:id/doctors', doctorsInSerialByIDV1);
 
-	function doctorsInSerialByIDV1(req, res) {
+	function doctorsInSerialByIDV1(req: Request, res: Response) {
 		Doctor.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -136,7 +137,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials/:id/directors', directorsOfSerialByIDV1);
 	server.get('/v1/serials/:id/directors', directorsOfSerialByIDV1);
 
-	function directorsOfSerialByIDV1(req, res) {
+	function directorsOfSerialByIDV1(req: Request, res: Response) {
 		Director.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -150,7 +151,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials/:id/writers', writersOfSerialByIDV1);
 	server.get('/v1/serials/:id/writers', writersOfSerialByIDV1);
 
-	function writersOfSerialByIDV1(req, res) {
+	function writersOfSerialByIDV1(req: Request, res: Response) {
 		Writer.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -164,7 +165,7 @@ module.exports.init = function (server, connection) {
 	server.get('/serials/:id/episodes', episodesOfSerialByIDV1);
 	server.get('/v1/serials/:id/episodes', episodesOfSerialByIDV1);
 
-	function episodesOfSerialByIDV1(req, res) {
+	function episodesOfSerialByIDV1(req: Request, res: Response) {
 		Episode.forSerialID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -178,7 +179,7 @@ module.exports.init = function (server, connection) {
 	server.get('/seasons', allSeasonsV1);
 	server.get('/v1/seasons', allSeasonsV1);
 
-	function allSeasonsV1(req, res) {
+	function allSeasonsV1(req: Request, res: Response) {
 		Season.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -195,7 +196,7 @@ module.exports.init = function (server, connection) {
 	server.get('/seasons/:id', seasonByIDV1);
 	server.get('/v1/seasons/:id', seasonByIDV1);
 
-	function seasonByIDV1(req, res) {
+	function seasonByIDV1(req: Request, res: Response) {
 		Season.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -209,7 +210,7 @@ module.exports.init = function (server, connection) {
 	server.get('/seasons/:id/serials', serialsInSeasonV1);
 	server.get('/v1/seasons/:id/serials', serialsInSeasonV1);
 
-	function serialsInSeasonV1(req, res) {
+	function serialsInSeasonV1(req: Request, res: Response) {
 		Season.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -223,7 +224,7 @@ module.exports.init = function (server, connection) {
 	server.get('/directors', allDirectorsV1);
 	server.get('/v1/directors', allDirectorsV1);
 
-	function allDirectorsV1(req, res) {
+	function allDirectorsV1(req: Request, res: Response) {
 		Director.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -240,7 +241,7 @@ module.exports.init = function (server, connection) {
 	server.get('/directors/:id', directorByIDV1);
 	server.get('/v1/directors/:id', directorByIDV1);
 
-	function directorByIDV1(req, res) {
+	function directorByIDV1(req: Request, res: Response) {
 		Director.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -254,7 +255,7 @@ module.exports.init = function (server, connection) {
 	server.get('/directors/:id/serials', serialsForDirectorV1);
 	server.get('/v1/directors/:id/serials', serialsForDirectorV1);
 
-	function serialsForDirectorV1(req, res) {
+	function serialsForDirectorV1(req: Request, res: Response) {
 		Director.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -268,7 +269,7 @@ module.exports.init = function (server, connection) {
 	server.get('/writers', allWritersV1);
 	server.get('/v1/writers', allWritersV1);
 
-	function allWritersV1(req, res) {
+	function allWritersV1(req: Request, res: Response) {
 		Writer.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -285,7 +286,7 @@ module.exports.init = function (server, connection) {
 	server.get('/writers/:id', writerByIDV1);
 	server.get('/v1/writers/:id', writerByIDV1);
 
-	function writerByIDV1(req, res) {
+	function writerByIDV1(req: Request, res: Response) {
 		Writer.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -299,7 +300,7 @@ module.exports.init = function (server, connection) {
 	server.get('/writers/:id/serials', serialsForWriterV1);
 	server.get('/v1/writers/:id/serials', serialsForWriterV1);
 
-	function serialsForWriterV1(req, res) {
+	function serialsForWriterV1(req: Request, res: Response) {
 		Writer.serials(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -313,7 +314,7 @@ module.exports.init = function (server, connection) {
 	server.get('/episodes', allEpisodesV1);
 	server.get('/v1/episodes', allEpisodesV1);
 
-	function allEpisodesV1(req, res) {
+	function allEpisodesV1(req: Request, res: Response) {
 		Episode.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
@@ -327,7 +328,7 @@ module.exports.init = function (server, connection) {
 	server.get('/episodes/:id', episodeByIDV1);
 	server.get('/v1/episodes/:id', episodeByIDV1);
 
-	function episodeByIDV1(req, res) {
+	function episodeByIDV1(req: Request, res: Response) {
 		Episode.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 

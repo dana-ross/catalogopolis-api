@@ -4,19 +4,27 @@
   "version": "1.0.0",
   "description": "API with information on Doctor Who episodes and related data.",
   "author": "Dave Ross <dave@davidmichaelross.com>",
-  "main": "app/server.js",
+  "main": "app/dist/bundle.js",
   "scripts": {
-    "start": "node app/server.js",
+    "start": "node app/dist/bundle.js",
     "apidoc": "node_modules\\.bin\\apidoc -i app -o restapidoc"
   },
   "devDependencies": {
-    "apidoc": "^0.17.5"
+    "@types/node": "^7.0.5",
+    "@types/sqlite3": "^2.2.32",
+    "apidoc": "^0.17.5",
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.4.0",
+    "babel-preset-es2015": "^6.22.0",
+    "ts-loader": "^2.0.1",
+    "typescript": "^2.2.1",
+    "webpack": "^2.2.1",
+    "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
-    "memoizee": "^0.4.2",
     "mysql": "^2.13.0",
     "sqlite3": "^3.1.8"
   },

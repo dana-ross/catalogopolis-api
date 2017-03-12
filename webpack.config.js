@@ -1,4 +1,5 @@
 var path = require('path');
+var webpack = require("webpack");
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
@@ -19,6 +20,10 @@ module.exports = {
 			}
 		]
 	},
+	plugins: [
+		new webpack.optimize.UglifyJsPlugin({minimize: true})
+
+	],
 	resolve: {
 		extensions: [".webpack.js", ".web.js", ".ts", ".js"]
 	},

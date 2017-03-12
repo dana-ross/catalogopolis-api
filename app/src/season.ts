@@ -29,7 +29,6 @@ export class Season {
 	 * @returns {Season}
 	 */
 	static forID(connection: Database, id: number): Promise<Season> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons WHERE id = ?', [id], function (err, rows: Array<SeasonRow>, fields) {
 				if (!err) {
@@ -53,12 +52,11 @@ export class Season {
 	 * @returns {Promise} Single Season record
 	 */
 	static forName(connection: Database, name: string): Promise<Season> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons WHERE name = ?', [name], function (err, rows: Array<SeasonRow>, fields) {
 				if (!err) {
 					if (rows && rows.length) {
-						resolve(self.fromRow(rows[0]).addHATEAOS());
+						resolve(Season.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
 						resolve([]);
@@ -77,7 +75,6 @@ export class Season {
 	 * @returns {Array} Array of Serial objects
 	 */
 	static serials(connection: Database, seasonID: number): Promise<Array<Serial>> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT serials.* FROM serials WHERE serials.season_id = ? ORDER BY serials.id', [seasonID], function (err, rows: Array<SerialRow>, fields) {
 				if (!err) {
@@ -101,7 +98,6 @@ export class Season {
 	 * @returns {Array} Array of Season objects
 	 */
 	static all(connection: Database): Promise<Array<Season>> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons ORDER BY id', [], function (err, rows: Array<SeasonRow>, fields) {
 				if (!err) {

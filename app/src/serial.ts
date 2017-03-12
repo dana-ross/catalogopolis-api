@@ -37,7 +37,6 @@ export class Serial implements DBRecord {
 	 * @returns {Serial}
 	 */
 	static forID(connection, id) {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials WHERE id = ?', [id], function (err, rows: Array<SerialRow>, fields) {
 				if (!err) {
@@ -61,7 +60,6 @@ export class Serial implements DBRecord {
 	 * @returns {Promise} Single Serial record
 	 */
 	static forTitle(connection: Database, title: string): Promise<Serial> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials WHERE title = ?', [title], function (err, rows: Array<SerialRow>, fields) {
 				if (!err) {
@@ -84,7 +82,6 @@ export class Serial implements DBRecord {
 	 * @returns {Array} Array of Serial objects
 	 */
 	static all(connection: Database): Promise<Array<Serial>> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials ORDER BY id', [], function (err, rows: Array<SerialRow>, fields) {
 				if (!err) {

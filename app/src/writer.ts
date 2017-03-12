@@ -98,7 +98,6 @@ export class Writer {
 	 * @returns {Array} Array of Writer objects
 	 */
 	static forSerialID(connection: Database, serialID: number): Promise<Array<Writer>> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT writers.* FROM serials INNER JOIN serials_writers ON serials.id = serials_writers.serial_id INNER JOIN writers ON serials_writers.writer_id = writers.id WHERE serials.id = ?', [serialID], function (err, rows: Array<WriterRow>, fields) {
 				if (!err) {
@@ -123,7 +122,6 @@ export class Writer {
 	 * @returns {Array} Array of Serial objects
 	 */
 	static serials(connection: Database, writerID: number): Promise<Array<Serial>> {
-		var self = this;
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT serials.* FROM serials INNER JOIN serials_writers ON serials.id = serials_writers.serial_id INNER JOIN writers ON serials_writers.writer_id = writers.id WHERE writers.id = ? ORDER BY serials.id', [writerID], function (err, rows: Array<SerialRow>, fields) {
 				if (!err) {

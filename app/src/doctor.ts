@@ -6,8 +6,8 @@
 import { Serial } from "./serial"
 import { Actor } from "./actor"
 import { ActorRow } from "./actor"
-import DBRecord from "./dbrecord"
-import HATEAOSLink from "./hateaoslink"
+import DBRecord from "./interfaces/dbrecord"
+import HATEAOSLink from "./interfaces/hateaoslink"
 import { Database } from "sqlite3"
 
 interface DoctorRow extends DBRecord {

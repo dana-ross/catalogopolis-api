@@ -3,10 +3,10 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import DBRecord from "./dbrecord"
-import Named from "./named"
+import DBRecord from "./interfaces/dbrecord"
+import Named from "./interfaces/named"
 import { Database } from "sqlite3"
-import HATEAOSLink from "./hateaoslink"
+import HATEAOSLink from "./interfaces/hateaoslink"
 
 export interface SerialRow extends DBRecord {
 	season_id: number

@@ -4,9 +4,9 @@
  */
 
 import { Database } from "sqlite3"
-import DBRecord from "./dbrecord"
-import Named from "./named"
-import HATEAOSLink from "./hateaoslink"
+import DBRecord from "./interfaces/dbrecord"
+import Named from "./interfaces/named"
+import HATEAOSLink from "./interfaces/hateaoslink"
 
 export interface ActorRow extends DBRecord {
 	id: number

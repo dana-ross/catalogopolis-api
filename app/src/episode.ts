@@ -3,8 +3,8 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import DBRecord from "./dbrecord"
-import HATEAOSLink from "./hateaoslink"
+import DBRecord from "./interfaces/dbrecord"
+import HATEAOSLink from "./interfaces/hateaoslink"
 import { Database } from "sqlite3"
 
 export interface EpisodeRow extends DBRecord {

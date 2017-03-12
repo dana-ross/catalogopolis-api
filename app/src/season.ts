@@ -4,9 +4,9 @@
  */
 
 import {Serial, SerialRow} from "./serial"
-import HATEAOSLink from "./hateaoslink"
-import DBRecord from "./dbrecord"
-import Named from "./named"
+import HATEAOSLink from "./interfaces/hateaoslink"
+import DBRecord from "./interfaces/dbrecord"
+import Named from "./interfaces/named"
 import { Database } from "sqlite3"
 
 export interface SeasonRow extends DBRecord, Named {

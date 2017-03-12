@@ -37,7 +37,7 @@ export class Actor implements DBRecord, Named {
 	 * @param {Actor|undefined} Object representing a Actor, uses current object (this) if undefined
 	 * @returns {Actor}
 	 */
-	addHATEAOS(actor?): Actor {
+	addHATEAOS(actor?: Actor): Actor {
 		if (actor === undefined) {
 			actor = this;
 		}

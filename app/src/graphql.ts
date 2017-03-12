@@ -3,17 +3,8 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-// const graphql = require('graphql'),
-// 	graphqlHTTP = require('express-graphql'),
-// 	Doctor = require('./doctor'),
-// 	Director = require('./director'),
-// 	Writer = require('./writer'),
-// 	Season = require('./season'),
-// 	Serial = require('./serial'),
-// 	Actor = require('./actor'),
-// 	Episode = require('./episode');
-
-import {graphqlHTTP, GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean} from "graphql"
+import {GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean} from "graphql"
+import graphqlHTTP from "express-graphql"
 import {Doctor} from "./doctor"
 import {Director} from "./director"
 import {Writer} from "./writer"

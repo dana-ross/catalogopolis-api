@@ -37,13 +37,18 @@ export class Actor implements DBRecord, Named {
 	 * @param {Actor|undefined} Object representing a Actor, uses current object (this) if undefined
 	 * @returns {Actor}
 	 */
-	addHATEAOS(actor?: Actor): Actor {
-		if (actor === undefined) {
-			actor = this;
-		}
-		actor.links = [];
-		actor.links.push({ rel: "self", href: Actor.restv1URL(actor.id) });
-		return actor;
+	 static addHATEAOSTo(actor: Actor): Actor {
+		actor.links = []
+		actor.links.push({ rel: "self", href: Actor.restv1URL(actor.id) })
+		return actor
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Actor instance
+	 * @returns {Actor}
+	 */
+	addHATEAOS(): Actor {
+		return Actor.addHATEAOSTo(this)
 	}
 
 	/**

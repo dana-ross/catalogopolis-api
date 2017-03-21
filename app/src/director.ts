@@ -164,15 +164,20 @@ export class Director implements DBRecord, Named {
 
 	/**
 	 * Adds HATEAOS data to a Director object
-	 * @param {Director|undefined} Object representing a Director, uses current object (this) if undefined
+	 * @param {Director} Object representing a Director
 	 * @returns {Director}
 	 */
-	addHATEAOS(director?: Director): Director {
-		if (director === undefined) {
-			director = this;
-		}
+	static addHATEAOSTo(director: Director): Director {
 		director.links = [];
 		director.links.push({ rel: "self", href: Director.restv1URL(director.id) });
 		return director;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Director instance
+	 * @returns {Director}
+	 */
+	addHATEAOS(): Director {
+		return Director.addHATEAOSTo(this)
 	}
 }

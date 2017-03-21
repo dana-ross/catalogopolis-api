@@ -7,7 +7,10 @@
   "main": "app/dist/bundle.js",
   "scripts": {
     "start": "node app/dist/bundle.js",
-    "apidoc": "node_modules\\.bin\\apidoc -i app -o restapidoc"
+	"apidoc": "node_modules/.bin/apidoc -i app -o restapidoc",
+    "apidoc-w": "node_modules\\.bin\\apidoc -i app -o restapidoc",
+	"test": "node_modules/.bin/mocha",
+	"test-w": "node_modules\\.bin\\mocha"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",

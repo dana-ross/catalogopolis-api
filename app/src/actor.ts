@@ -34,7 +34,7 @@ export class Actor implements DBRecord, Named {
 
 	/**
 	 * Adds HATEAOS data to a Actor object
-	 * @param {Actor|undefined} Object representing a Actor, uses current object (this) if undefined
+	 * @param {Actor} Object representing a Actor
 	 * @returns {Actor}
 	 */
 	 static addHATEAOSTo(actor: Actor): Actor {

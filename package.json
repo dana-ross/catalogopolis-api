@@ -10,7 +10,9 @@
 	"apidoc": "node_modules/.bin/apidoc -i app -o restapidoc",
     "apidoc-w": "node_modules\\.bin\\apidoc -i app -o restapidoc",
 	"test": "node_modules/.bin/mocha",
-	"test-w": "node_modules\\.bin\\mocha"
+	"test-w": "node_modules\\.bin\\mocha",
+	"compile-tests": "node_modules/.bin/webpack --config=webpack-test.config.js",
+	"compile-tests-w": "node_modules\\.bin\\webpack --config=webpack-test.config.js"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",

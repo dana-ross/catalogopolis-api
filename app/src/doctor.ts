@@ -215,15 +215,21 @@ export class Doctor implements DBRecord {
 
 	/**
 	 * Adds HATEAOS data to a Doctor object
-	 * @param {Doctor|undefined} Object representing a Doctor, uses current object (this) if undefined
+	 * @param {Doctor} Object representing a Doctor
 	 * @returns {Doctor}
+	 * @static
 	 */
-	addHATEAOS(doctor?: Doctor): Doctor {
-		if (doctor === undefined) {
-			doctor = this;
-		}
+	static addHATEAOSTo(doctor: Doctor): Doctor {
 		doctor.links = [];
 		doctor.links.push({ rel: "self", href: Doctor.restv1URL(doctor.id) });
 		return doctor;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Doctor instance
+	 * @returns {Doctor}
+	 */
+	addHATEAOS(): Doctor {
+		return Doctor.addHATEAOSTo(this)
 	}
 }

@@ -216,18 +216,24 @@ export class Episode {
 
 	/**
 	 * Adds HATEAOS data to an Episode object
-	 * @param {Episode|undefined} Object representing a Episode, uses current object (this) if undefined
+	 * @param {Episode} Object representing a Episode
 	 * @returns {Episode}
+	 * @static
 	 */
-	addHATEAOS(episode?: Episode): Episode {
-		if (episode === undefined) {
-			episode = this;
-		}
+	static addHATEAOSTo(episode: Episode): Episode {
 		episode.links = [];
 		episode.links.push({
 			rel: "self",
 			href: Episode.restv1URL(episode.id)
 		});
 		return episode;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Episode instance
+	 * @returns {Episode}
+	 */
+	addHATEAOS(): Episode {
+		return Episode.addHATEAOSTo(this)
 	}
 }

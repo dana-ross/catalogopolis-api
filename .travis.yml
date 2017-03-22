@@ -4,4 +4,4 @@ node_js:
   - "7"
 
 before_script:
-  - "npm run-script compile-tests"
+  - "npm run-script build-tests"

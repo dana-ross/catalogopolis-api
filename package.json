@@ -8,7 +8,6 @@
   "scripts": {
     "start": "node app/dist/bundle.js",
 	"build": "node_modules/.bin/webpack",
-	"build-w": "node_modules\\.bin\\webpack",
 	"apidoc": "node_modules/.bin/apidoc -i app -o restapidoc",
     "apidoc-w": "node_modules\\.bin\\apidoc -i app -o restapidoc",
 	"test": "node_modules/.bin/mocha",

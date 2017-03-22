@@ -134,7 +134,7 @@ export class Season {
 	 * @static
 	 */
 	static restv1URL(id: number): string {
-		return ("/v1/seasons" + ((id !== undefined) ? ("/" + id) : ""));
+		return "/v1/seasons/" + id
 	};
 
 	/**

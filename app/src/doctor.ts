@@ -210,7 +210,7 @@ export class Doctor implements DBRecord {
 	 * @static
 	 */
 	static restv1URL(id: number): string {
-		return ("/v1/doctors" + ((id !== undefined) ? ("/" + id) : ""));
+		return "/v1/doctors/" + id
 	};
 
 	/**

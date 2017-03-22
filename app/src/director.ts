@@ -159,7 +159,7 @@ export class Director implements DBRecord, Named {
 	 * @static
 	 */
 	static restv1URL(id: number): string {
-		return ("/v1/directors" + ((id !== undefined) ? ("/" + id) : ""));
+		return "/v1/directors/" + id
 	};
 
 	/**

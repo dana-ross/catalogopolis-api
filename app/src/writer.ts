@@ -159,7 +159,7 @@ export class Writer {
 	 * @static
 	 */
 	static restv1URL(id: number): string {
-		return ("/v1/writers" + ((id !== undefined) ? ("/" + id) : ""));
+		return "/v1/writers/" + id
 	};
 
 	/**

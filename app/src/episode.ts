@@ -211,7 +211,7 @@ export class Episode {
 	 * @static
 	 */
 	static restv1URL(id: number): string {
-		return ("/v1/episodes" + ((id !== undefined) ? ("/" + id) : ""));
+		return "/v1/episodes/" + id
 	};
 
 	/**

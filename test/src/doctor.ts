@@ -4,7 +4,7 @@
 
 import 'mocha'
 import {assert, expect} from 'chai'
-import { Doctor } from "../../app/src/Doctor"
+import { Doctor } from "../../app/src/doctor"
 
 describe('Doctor', function () {
 

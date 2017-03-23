@@ -127,15 +127,20 @@ export class Serial implements DBRecord {
 
 	/**
 	 * Adds HATEAOS data to a Serial object
-	 * @param {Serial|undefined} Object representing a Serial, uses current object (this) if undefined
+	 * @param {Serial} Object representing a Serial
 	 * @returns {Serial}
 	 */
-	addHATEAOS(serial?: Serial): Serial {
-		if (serial === undefined) {
-			serial = this;
-		}
+	static addHATEAOSTo(serial: Serial): Serial {
 		serial.links = [];
 		serial.links.push({ rel: "self", href: Serial.restv1URL(serial.id) });
 		return serial;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Serial instance
+	 * @returns {Serial}
+	 */
+	addHATEAOS(): Serial {
+		return Serial.addHATEAOSTo(this)
 	}
 }

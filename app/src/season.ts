@@ -139,15 +139,20 @@ export class Season {
 
 	/**
 	 * Adds HATEAOS data to a Season object
-	 * @param {Season|undefined} Object representing a Season, uses current object (this) if undefined
+	 * @param {Season} Object representing a Season
 	 * @returns {Season}
 	 */
-	addHATEAOS(season?: Season): Season {
-		if (season === undefined) {
-			season = this;
-		}
+	static addHATEAOSTo(season: Season): Season {
 		season.links = [];
 		season.links.push({ rel: "self", href: Season.restv1URL(season.id) });
 		return season;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Season instance
+	 * @returns {Season}
+	 */
+	addHATEAOS(): Season {
+		return Season.addHATEAOSTo(this)
 	}
 }

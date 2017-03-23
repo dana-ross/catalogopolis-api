@@ -164,16 +164,22 @@ export class Writer {
 
 	/**
 	 * Adds HATEAOS data to a Writer object
-	 * @param {Writer|undefined} Object representing a Writer, uses current object (this) if undefined
+	 * @param {Writer} Object representing a Writer
 	 * @returns {Writer}
+	 * @static
 	 */
-	addHATEAOS(writer?: Writer): Writer {
-		if (writer === undefined) {
-			writer = this;
-		}
+	static addHATEAOSTo(writer: Writer): Writer {
 		writer.links = [];
 		writer.links.push({ rel: "self", href: Writer.restv1URL(writer.id) });
 		return writer;
+	}
+
+	/**
+	 * Adds HATEAOS data to the current Writer instance
+	 * @returns {Writer}
+	 */
+	addHATEAOS(): Writer {
+		return Writer.addHATEAOSTo(this)
 	}
 
 }

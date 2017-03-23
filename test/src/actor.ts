@@ -14,15 +14,15 @@ describe('Actor', function () {
 	})
 
 	it('can add HATEAOS data to an instance', () => {
-		let actor = new Actor, mutatedActor = Actor.addHATEAOSTo(actor)
-		expect(mutatedActor).to.be.an.instanceof(Actor)
-		expect(mutatedActor).to.have.property('links')
+		let original = new Actor, mutated = Actor.addHATEAOSTo(original)
+		expect(mutated).to.be.an.instanceof(Actor)
+		expect(mutated).to.have.property('links')
 	})
 
 	it('can add HATEAOS data to the current instance', () => {
-		let actor = new Actor, mutatedActor = actor.addHATEAOS()
-		expect(mutatedActor).to.be.an.instanceof(Actor)
-		expect(mutatedActor).to.have.property('links')
+		let original = new Actor, mutated = original.addHATEAOS()
+		expect(mutated).to.be.an.instanceof(Actor)
+		expect(mutated).to.have.property('links')
 	})
 
 	it('instantiates a new Actor from an object or database row', () => {

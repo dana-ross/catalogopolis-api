@@ -14,15 +14,15 @@ describe('Doctor', function () {
 	})
 
 	it('can add HATEAOS data to an instance', () => {
-		let doctor = new Doctor, mutatedDoctor = Doctor.addHATEAOSTo(doctor)
-		expect(mutatedDoctor).to.be.an.instanceof(Doctor)
-		expect(mutatedDoctor).to.have.property('links')
+		let original = new Doctor, mutated = Doctor.addHATEAOSTo(original)
+		expect(mutated).to.be.an.instanceof(Doctor)
+		expect(mutated).to.have.property('links')
 	})
 
 	it('can add HATEAOS data to the current instance', () => {
-		let doctor = new Doctor, mutatedDoctor = doctor.addHATEAOS()
-		expect(mutatedDoctor).to.be.an.instanceof(Doctor)
-		expect(mutatedDoctor).to.have.property('links')
+		let original = new Doctor, mutated = original.addHATEAOS()
+		expect(mutated).to.be.an.instanceof(Doctor)
+		expect(mutated).to.have.property('links')
 	})
 
 })

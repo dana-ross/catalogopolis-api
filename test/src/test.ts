@@ -1,3 +1,7 @@
 require('./actor.ts')
 require('./director.ts')
 require('./doctor.ts')
+require('./episode.ts')
+require('./season.ts')
+require('./serial.ts')
+require('./writer.ts')

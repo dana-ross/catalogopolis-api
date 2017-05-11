@@ -14,7 +14,7 @@ import {Actor} from "./actor"
 import {Episode} from "./episode"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
-	arrayAllSame = values => values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
+	arrayAllSame = values => (values.length > 0) && values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
 
 /**
  * Promises to only return the unique results of a set of Promises
@@ -69,8 +69,9 @@ export default function (server, connection) {
 				primaryActor: {
 					type: actorType,
 					description: 'The actor who usually portrayed this incarnation of The Doctor',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise((resolve, reject) => {
+							context.incrementResolverCount()
 							Actor.forID(connection, parent.primaryActorID).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -81,8 +82,9 @@ export default function (server, connection) {
 				serials: {
 					type: new GraphQLList(serialType),
 					description: 'Serials',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Doctor.serials(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -110,8 +112,9 @@ export default function (server, connection) {
 				serials: {
 					type: new GraphQLList(serialType),
 					description: 'Serials',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Director.serials(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -139,8 +142,9 @@ export default function (server, connection) {
 				serials: {
 					type: new GraphQLList(serialType),
 					description: 'Serials',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Writer.serials(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -168,8 +172,9 @@ export default function (server, connection) {
 				serial: {
 					type: serialType,
 					description: 'Serial this Episode appears in',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise((resolve, reject) => {
+							context.incrementResolverCount()
 							Serial.forID(connection, parent.serialID).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -225,8 +230,9 @@ export default function (server, connection) {
 				serials: {
 					type: new GraphQLList(serialType),
 					description: 'Serials',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Season.serials(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -250,8 +256,9 @@ export default function (server, connection) {
 				season: {
 					type: seasonType,
 					description: 'Season',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Season.forID(connection, parent.seasonID).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -278,8 +285,9 @@ export default function (server, connection) {
 				doctors: {
 					type: new GraphQLList(doctorType),
 					description: 'Doctor(s) who appeared in this episode',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Doctor.forSerialID(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -290,8 +298,9 @@ export default function (server, connection) {
 				directors: {
 					type: new GraphQLList(directorType),
 					description: 'Directors of this serial',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Director.forSerialID(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -302,8 +311,9 @@ export default function (server, connection) {
 				writers: {
 					type: new GraphQLList(writerType),
 					description: 'Writers of this serial',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
 							Writer.forSerialID(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -314,8 +324,9 @@ export default function (server, connection) {
 				episodes: {
 					type: new GraphQLList(episodeType),
 					description: 'Episodes in this serial',
-					resolve: (parent) => {
+					resolve: (parent, args, context) => {
 						return new Promise((resolve, reject) => {
+							context.incrementResolverCount()
 							Episode.forSerialID(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
@@ -464,6 +475,22 @@ export default function (server, connection) {
 			}
 		})
 	});
+
+	/**
+	 * GraphQL cost limiting middleware
+	 */
+	server.use((req, res, next) => {
+		req.resolverCount = 0
+		/**
+		 * @see https://medium.com/workflowgen/graphql-query-timeout-and-complexity-management-fab4d7315d8d
+		 */
+		req.incrementResolverCount = function() {
+			if(++this.resolverCount > 2000) {
+				throw('Cost limiting is in effect. Query complexity was too high.')
+			}
+		}
+		next()
+	})
 
 	server.use('/graphql', graphqlHTTP({
 		schema: schema,

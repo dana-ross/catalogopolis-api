@@ -7,11 +7,11 @@
   "main": "app/dist/bundle.js",
   "scripts": {
     "start": "node app/dist/bundle.js",
-	"build": "node_modules/.bin/webpack",
-	"apidoc": "node_modules/.bin/apidoc -i app -o restapidoc",
+    "build": "node_modules/.bin/webpack",
+    "apidoc": "node_modules/.bin/apidoc -i app -o restapidoc",
     "apidoc-w": "node_modules\\.bin\\apidoc -i app -o restapidoc",
-	"pretest": "node_modules/.bin/webpack --config=webpack-test.config.js",
-	"test": "node_modules/.bin/mocha"
+    "pretest": "node_modules/.bin/webpack --config=webpack-test.config.js",
+    "test": "node_modules/.bin/mocha"
   },
   "devDependencies": {
     "@types/chai": "^3.4.35",
@@ -33,7 +33,6 @@
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
-    "mysql": "^2.13.0",
     "sqlite3": "^3.1.8"
   },
   "apidoc": {

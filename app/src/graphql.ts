@@ -482,7 +482,10 @@ export default function (server, connection) {
 	server.use((req, res, next) => {
 		req.resolverCount = 0
 		/**
+		 * Call incrementResolverCount() once in the body of each resolver function.
+		 *
 		 * @see https://medium.com/workflowgen/graphql-query-timeout-and-complexity-management-fab4d7315d8d
+		 * @throws Will throw an error once the cost threshold has been surpassed.
 		 */
 		req.incrementResolverCount = function() {
 			if(++this.resolverCount > 2000) {

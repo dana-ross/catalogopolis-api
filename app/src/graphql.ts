@@ -12,6 +12,7 @@ import {Season} from "./season"
 import {Serial} from "./serial"
 import {Actor} from "./actor"
 import {Episode} from "./episode"
+import CostLimitedRequest from "./interfaces/costlimitedrequest"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
 	arrayAllSame = values => (values.length > 0) && values.reduce((t, v, i, a) => t && objectIDsEqual(v, a[0]));
@@ -479,7 +480,7 @@ export default function (server, connection) {
 	/**
 	 * GraphQL cost limiting middleware
 	 */
-	server.use((req, res, next) => {
+	server.use((req: CostLimitedRequest, res: Response, next: Function) => {
 		req.resolverCount = 0
 		/**
 		 * Call incrementResolverCount() once in the body of each resolver function.
@@ -500,4 +501,3 @@ export default function (server, connection) {
 		graphiql: true
 	}));
 }
-

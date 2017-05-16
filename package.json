@@ -10,7 +10,7 @@
     "build": "node_modules/.bin/webpack",
     "apidoc": "node_modules/.bin/apidoc -i app -o docs/restapi",
     "apidoc-w": "node_modules\\.bin\\apidoc -i app -o docs\\restapi",
-	"graphqldoc": "node_modules/.bin/graphdoc -e http://localhost:5000/graphql -o docs/graphql",
+    "graphqldoc": "node_modules/.bin/graphdoc -e http://localhost:5000/graphql -o docs/graphql",
     "pretest": "node_modules/.bin/webpack --config=webpack-test.config.js",
     "test": "node_modules/.bin/mocha"
   },
@@ -32,10 +32,12 @@
     "webpack-node-externals": "^1.5.4"
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "universal-analytics": "^0.4.13"
   },
   "apidoc": {
     "title": "Catalogopolis REST API v1",

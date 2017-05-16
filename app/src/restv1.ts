@@ -7,12 +7,23 @@ import { Actor } from "./actor"
 import { Episode } from "./episode"
 import { Request, Response } from "express"
 
+/**
+ * Output the result of a successful query
+ *
+ * @param res Response Express "Response" object
+ */
 const processSuccessfulQueryResults = (res: Response) => {
 	return function (value: any) {
+		res.type('json')
 		res.send(value);
 	}
 }
 
+/**
+ * Output an error for an unsuccessful query
+ *
+ * @param res Response Express "Response" object
+ */
 const processFailedQueryResults = (res: Response) => {
 	return function (reason) {
 		res.status(404).send('Error');
@@ -21,6 +32,7 @@ const processFailedQueryResults = (res: Response) => {
 
 /**
  * Set up routes and handlers for the v1 REST API
+ *
  * @param server {object} Restify server object
  */
 export default function (server, connection) {

@@ -1,7 +1,5 @@
-import { Application } from "express"
+import { Application, Request, Response } from "express"
 import ua from "universal-analytics"
-import TimedRequest from "./interfaces/timedrequest"
-import EventedResponse from "./interfaces/eventedresponse"
 
 /**
  * Get the API Type custom dimension value for a request
@@ -9,7 +7,7 @@ import EventedResponse from "./interfaces/eventedresponse"
  * @param req {TimedRequest} Express Request object
  * @return String
  */
-function requestType(req: TimedRequest) : String {
+function requestType(req: Request) : String {
 	if(req.originalUrl.match(/^\/graphql\??/)) {
 		return req.method === 'GET' ? 'GraphiQL' : 'GraphQL'
 	}
@@ -25,14 +23,13 @@ function requestType(req: TimedRequest) : String {
  * @param trackingID String Analytics tracking ID
  */
 export default function register(server: Application, trackingID: String) {
-	server.use((req: TimedRequest, res: EventedResponse, next: Function) => {
+	server.use((req: Request, res: Response, next: Function) => {
 		req.timingData = {
 			'start': Date.now()
 		}
 
 		res.on('finish', () => {
-			let visitor = ua(trackingID, { https: true })
-			visitor
+			ua(trackingID, { https: true })
 				.pageview(req.originalUrl)
 				.event('Request Type', requestType(req))
 				.timing('API request', 'Complete request', Date.now() - req.timingData.start)

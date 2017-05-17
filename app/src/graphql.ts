@@ -49,6 +49,19 @@ export default function (server, connection) {
 				name: {
 					type: GraphQLString,
 					description: 'Actor name'
+				},
+				doctor: {
+					type: doctorType,
+					description: "Doctor this actor has portrayed",
+					resolve: (parent, args, context) => {
+						return new Promise((resolve, reject)=> {
+							context.incrementResolverCount()
+							Doctor.forPrimaryActorID(connection, parent.id).then(
+								(value) => resolve(value),
+								(reason) => reject(reason)
+							)
+						})
+					}
 				}
 			}
 		}
@@ -343,6 +356,25 @@ export default function (server, connection) {
 		query: new GraphQLObjectType({
 			name: 'RootQueryType',
 			fields: {
+				actor: {
+					type: actorType,
+					args: {
+						id: {
+							description: 'Actor ID',
+							type: GraphQLID
+						},
+						name: {
+							description: 'Name of this actor',
+							type: GraphQLString
+						}
+					},
+					resolve: (root, { id, name }) => {
+						return uniquePromiseResults(
+							id ? Actor.forID(connection, id) : null,
+							name ? Actor.forName(connection, name) : null
+						)
+					}
+				},
 				doctor: {
 					type: doctorType,
 					args: {

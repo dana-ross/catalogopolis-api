@@ -10,7 +10,7 @@ import DBRecord from "./interfaces/dbrecord"
 import HATEAOSLink from "./interfaces/hateaoslink"
 import { Database } from "sqlite3"
 
-interface DoctorRow extends DBRecord {
+export interface DoctorRow extends DBRecord {
 	incarnation: string
 	primary_actor: number
 }

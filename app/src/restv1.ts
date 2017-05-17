@@ -344,4 +344,48 @@ export default function (server, connection) {
 		Episode.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
 	}
 
+	/**
+	 * @api {get} /actors Retrieve all Actors
+	 * @apiName GetActors
+	 * @apiGroup Actor
+	 *
+	 * @apiSuccess {Object[]} List of Actors.
+	 */
+	server.get('/actors', allActorsV1);
+	server.get('/v1/actors', allActorsV1);
+
+	function allActorsV1(req: Request, res: Response) {
+		Actor.all(connection).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+	}
+
+	/**
+	 * @api {get} /actors/:id Retrieve a single Actor
+	 * @apiName GetActor
+	 * @apiGroup Actor
+	 *
+	 * @apiParam {Number} id Actor ID
+	 */
+	server.get('/actors/:id', actorByIDV1);
+	server.get('/v1/actors/:id', actorByIDV1);
+
+	function actorByIDV1(req: Request, res: Response) {
+		Actor.forID(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+	}
+
+	/**
+	 * @api {get} /actors/:id/doctors Retrieve all doctors portrayed by an Actor
+	 * @apiName GetDoctorsForActor
+	 * @apiGroup Actor
+	 *
+	 * @apiParam {Number} id Actor ID
+	 * @apiSuccess {Object[]} List of Doctors.
+	 */
+	server.get('/actors/:id/doctors', doctorsForActorV1);
+	server.get('/v1/actors/:id/doctors', doctorsForActorV1);
+
+	function doctorsForActorV1(req: Request, res: Response) {
+		Actor.doctors(connection, req.params.id).then(processSuccessfulQueryResults(res), processFailedQueryResults(res));
+	}
+
+
 }

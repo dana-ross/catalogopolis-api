@@ -7,6 +7,7 @@ import { Database } from "sqlite3"
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
 import HATEAOSLink from "./interfaces/hateaoslink"
+import { Doctor, DoctorRow } from './doctor';
 
 export interface ActorRow extends DBRecord {
 	id: number
@@ -130,6 +131,30 @@ export class Actor implements DBRecord, Named {
 				}
 			});
 		});
+	};
+
+	/**
+	 * Returns all Doctor objects for a given Actor ID
+	 * @param {object} connection SQLite connection
+	 * @param {number} actorID Actor database ID
+	 * @returns {Array} Array of Doctor objects
+	 */
+	static doctors(connection: Database, actorID: number): Promise<Array<Doctor>> {
+		return new Promise(function (resolve, reject) {
+			connection.all('SELECT doctors.* FROM doctors WHERE doctors.primary_actor = ? ORDER BY doctors.id', [actorID], function (err, rows: Array<DoctorRow>, fields) {
+				if (!err) {
+					if (rows && rows.length) {
+						resolve(rows.map(function (x) { return Doctor.fromRow(x).addHATEAOS(); }, rows));
+					}
+					else {
+						resolve([]);
+					}
+				} else {
+					reject({ error: { message: 'Error while performing Query.' } });
+				}
+			});
+		});
+
 	};
 
 }

@@ -50,13 +50,13 @@ export default function (server, connection) {
 					type: GraphQLString,
 					description: 'Actor name'
 				},
-				doctor: {
-					type: doctorType,
-					description: "Doctor this actor has portrayed",
+				doctors: {
+					type: new GraphQLList(doctorType),
+					description: "Doctors this actor has portrayed",
 					resolve: (parent, args, context) => {
 						return new Promise((resolve, reject)=> {
 							context.incrementResolverCount()
-							Doctor.forPrimaryActorID(connection, parent.id).then(
+							Actor.doctors(connection, parent.id).then(
 								(value) => resolve(value),
 								(reason) => reject(reason)
 							)

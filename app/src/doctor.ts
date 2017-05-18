@@ -9,6 +9,7 @@ import { ActorRow } from "./actor"
 import DBRecord from "./interfaces/dbrecord"
 import HATEAOSLink from "./interfaces/hateaoslink"
 import { Database } from "sqlite3"
+import memoize from "memoized-class-decorator"
 
 export interface DoctorRow extends DBRecord {
 	incarnation: string
@@ -32,6 +33,7 @@ export class Doctor implements DBRecord {
 	 * @param {number} id Doctor database ID
 	 * @returns {Promise} Single Doctor record
 	 */
+	@memoize
 	static forID(connection: Database, id: number): Promise<Doctor> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM doctors WHERE id = ?', [id], function (err, rows: Array<DoctorRow>, fields) {
@@ -55,6 +57,7 @@ export class Doctor implements DBRecord {
 	 * @param {string} incarnation Doctor incarnation name
 	 * @returns {Promise} Single Doctor record
 	 */
+	@memoize
 	static forIncarnation(connection: Database, incarnation: string) {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM doctors WHERE incarnation = ?', [incarnation], function (err, rows: Array<DoctorRow>, fields) {
@@ -78,6 +81,7 @@ export class Doctor implements DBRecord {
 	 * @param {number} primaryActorID Doctor database ID
 	 * @returns {Promise} Single Doctor record
 	 */
+	@memoize
 	static forPrimaryActorID(connection: Database, primaryActorID: number): Promise<Doctor> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM doctors WHERE primary_actor = ?', [primaryActorID], function (err, rows, fields) {
@@ -101,6 +105,7 @@ export class Doctor implements DBRecord {
 	 * @param {number} doctorID Doctor database ID
 	 * @returns {Array} Array of Actor objects
 	 */
+	@memoize
 	static actors(connection: Database, doctorID: number): Promise<Array<Actor>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT actors.* FROM actors INNER JOIN doctors ON actors.id = doctors.primary_actor WHERE doctors.id = ? ORDER BY actors.id', [doctorID], function (err, rows: Array<ActorRow>, fields) {
@@ -124,6 +129,7 @@ export class Doctor implements DBRecord {
 	 * @param {object} connection SQLite connection
 	 * @returns {Promise} Array of Doctor objects
 	 */
+	@memoize
 	static all(connection: Database): Promise<Array<Doctor>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM doctors ORDER BY id', [], function (err, rows: Array<DoctorRow>, fields) {
@@ -147,6 +153,7 @@ export class Doctor implements DBRecord {
 	 * @param {number} serialID Serial database ID
 	 * @returns {Array} Array of Doctor objects
 	 */
+	@memoize
 	static forSerialID(connection: Database, serialID: number): Promise<Array<Doctor>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT doctors.* FROM serials INNER JOIN serials_doctors ON serials.id = serials_doctors.serial_id INNER JOIN doctors ON serials_doctors.doctor_id = doctors.id WHERE serials.id = ?', [serialID], function (err, rows, fields) {
@@ -171,6 +178,7 @@ export class Doctor implements DBRecord {
 	 * @param {number} doctorID Doctor database ID
 	 * @returns {Array} Array of Serial objects
 	 */
+	@memoize
 	static serials(connection: Database, doctorID: number): Promise<Array<Serial>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT serials.* FROM serials INNER JOIN serials_doctors ON serials.id = serials_doctors.serial_id INNER JOIN doctors ON serials_doctors.doctor_id = doctors.id WHERE doctors.id = ? ORDER BY serials.id', [doctorID], function (err, rows, fields) {

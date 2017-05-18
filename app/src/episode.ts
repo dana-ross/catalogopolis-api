@@ -6,6 +6,7 @@
 import DBRecord from "./interfaces/dbrecord"
 import HATEAOSLink from "./interfaces/hateaoslink"
 import { Database } from "sqlite3"
+import memoize from "memoized-class-decorator"
 
 export interface EpisodeRow extends DBRecord {
 	id: number
@@ -45,6 +46,7 @@ export class Episode {
 	 * @param {number} id Episode database ID
 	 * @returns {Episode}
 	 */
+	@memoize
 	static forID(connection: Database, id: number): Promise<Episode> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT * FROM episodes WHERE id = ?', [id], function (err, rows: Array<EpisodeRow>, fields) {
@@ -70,6 +72,7 @@ export class Episode {
 	 * @param {object} connection SQLite connection
 	 * @returns {Array} Array of Episode objects
 	 */
+	@memoize
 	static all(connection: Database): Promise<Array<Episode>> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT * FROM episodes ORDER BY serial_id, episode_order', [], function (err, rows: Array<EpisodeRow>, fields) {
@@ -94,6 +97,7 @@ export class Episode {
 	 * @param {number} serialID Serial database ID
 	 * @returns {Array} Array of Episode objects
 	 */
+	@memoize
 	static forSerialID(connection: Database, serialID: number): Promise<Array<Episode>> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT episodes.* FROM episodes WHERE episodes.serial_id = ?', [serialID], function (err, rows: Array<EpisodeRow>, fields) {
@@ -118,6 +122,7 @@ export class Episode {
 	 * @param {string} title Episode title
 	 * @returns {Array} Array of Episode objects
 	 */
+	@memoize
 	static forTitle(connection: Database, title: string): Promise<Array<Episode>> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT episodes.* FROM episodes WHERE episodes.title = ?', [title], function (err, rows: Array<EpisodeRow>, fields) {
@@ -141,6 +146,7 @@ export class Episode {
 	 * @param {string} originalAirDate Original air date
 	 * @returns {Array} Array of Episode objects
 	 */
+	@memoize
 	static forOriginalAirDate(connection: Database, originalAirDate: string): Promise<Array<Episode>> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT episodes.* FROM episodes WHERE episodes.original_air_date = ?', [originalAirDate], function (err, rows: Array<EpisodeRow>, fields) {
@@ -164,6 +170,7 @@ export class Episode {
 	 * @param {boolean} missing "Missing" status
 	 * @returns {Array} Array of Episode objects
 	 */
+	@memoize
 	static forMissingStatus(connection: Database, missing: boolean): Promise<Array<Episode>> {
 		return new Promise((resolve, reject) => {
 			connection.all('SELECT episodes.* FROM episodes WHERE episodes.missing = ?', [(true && missing)], function (err, rows: Array<EpisodeRow>, fields) {

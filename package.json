@@ -36,6 +36,7 @@
     "express": "^4.14.1",
     "express-graphql": "^0.6.3",
     "graphql": "^0.9.1",
+    "memoized-class-decorator": "^1.1.0",
     "sqlite3": "^3.1.8",
     "universal-analytics": "^0.4.13"
   },

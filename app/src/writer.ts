@@ -8,6 +8,7 @@ import HATEAOSLink from "./interfaces/hateaoslink"
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
 import { Database } from "sqlite3"
+import memoize from "memoized-class-decorator"
 
 export interface WriterRow extends DBRecord, Named {
 	id: number
@@ -29,6 +30,7 @@ export class Writer {
 	* @param {number} id Writer database ID
 	* @returns {Writer}
 	*/
+	@memoize
 	static forID(connection: Database, id: number): Promise<Writer> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM writers WHERE id = ?', [id], function (err, rows: Array<WriterRow>, fields) {
@@ -51,6 +53,7 @@ export class Writer {
 	 * @param {object} connection SQLite connection
 	 * @returns {Array} Array of Writer objects
 	 */
+	@memoize
 	static all(connection: Database): Promise<Array<Writer>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM writers ORDER BY id', [], function (err, rows: Array<WriterRow>, fields) {
@@ -74,6 +77,7 @@ export class Writer {
 	 * @param {string} name The Writer's name
 	 * @returns {Promise} Single Writer record
 	 */
+	@memoize
 	static forName(connection: Database, name: string): Promise<Writer> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM writers WHERE name = ?', [name], function (err, rows: Array<WriterRow>, fields) {
@@ -97,6 +101,7 @@ export class Writer {
 	 * @param {number} serialID Serial database ID
 	 * @returns {Array} Array of Writer objects
 	 */
+	@memoize
 	static forSerialID(connection: Database, serialID: number): Promise<Array<Writer>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT writers.* FROM serials INNER JOIN serials_writers ON serials.id = serials_writers.serial_id INNER JOIN writers ON serials_writers.writer_id = writers.id WHERE serials.id = ?', [serialID], function (err, rows: Array<WriterRow>, fields) {
@@ -121,6 +126,7 @@ export class Writer {
 	 * @param {number} writerID Writer database ID
 	 * @returns {Array} Array of Serial objects
 	 */
+	@memoize
 	static serials(connection: Database, writerID: number): Promise<Array<Serial>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT serials.* FROM serials INNER JOIN serials_writers ON serials.id = serials_writers.serial_id INNER JOIN writers ON serials_writers.writer_id = writers.id WHERE writers.id = ? ORDER BY serials.id', [writerID], function (err, rows: Array<SerialRow>, fields) {

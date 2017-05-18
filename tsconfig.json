@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"target": "ES6",
 		"moduleResolution": "node",
-		"allowJs": true
+		"allowJs": true,
+		"experimentalDecorators": true
 	}
 }

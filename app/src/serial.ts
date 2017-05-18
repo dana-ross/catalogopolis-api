@@ -7,6 +7,7 @@ import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
 import { Database } from "sqlite3"
 import HATEAOSLink from "./interfaces/hateaoslink"
+import memoize from "memoized-class-decorator"
 
 export interface SerialRow extends DBRecord {
 	season_id: number
@@ -36,6 +37,7 @@ export class Serial implements DBRecord {
 	 * @param {number} id Serial database ID
 	 * @returns {Serial}
 	 */
+	@memoize
 	static forID(connection, id) {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials WHERE id = ?', [id], function (err, rows: Array<SerialRow>, fields) {
@@ -59,6 +61,7 @@ export class Serial implements DBRecord {
 	 * @param {string} name The Serial's name
 	 * @returns {Promise} Single Serial record
 	 */
+	@memoize
 	static forTitle(connection: Database, title: string): Promise<Serial> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials WHERE title = ?', [title], function (err, rows: Array<SerialRow>, fields) {
@@ -81,6 +84,7 @@ export class Serial implements DBRecord {
 	 * @param {object} connection SQLite connection
 	 * @returns {Array} Array of Serial objects
 	 */
+	@memoize
 	static all(connection: Database): Promise<Array<Serial>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM serials ORDER BY id', [], function (err, rows: Array<SerialRow>, fields) {

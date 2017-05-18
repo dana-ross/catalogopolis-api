@@ -8,6 +8,7 @@ import HATEAOSLink from "./interfaces/hateaoslink"
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
 import { Database } from "sqlite3"
+import memoize from "memoized-class-decorator"
 
 export interface SeasonRow extends DBRecord, Named {
 
@@ -28,6 +29,7 @@ export class Season {
 	 * @param {number} id Season database ID
 	 * @returns {Season}
 	 */
+	@memoize
 	static forID(connection: Database, id: number): Promise<Season> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons WHERE id = ?', [id], function (err, rows: Array<SeasonRow>, fields) {
@@ -51,6 +53,7 @@ export class Season {
 	 * @param {string} name The Season's name
 	 * @returns {Promise} Single Season record
 	 */
+	@memoize
 	static forName(connection: Database, name: string): Promise<Season> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons WHERE name = ?', [name], function (err, rows: Array<SeasonRow>, fields) {
@@ -74,6 +77,7 @@ export class Season {
 	 * @param {number} seasonID Season database ID
 	 * @returns {Array} Array of Serial objects
 	 */
+	@memoize
 	static serials(connection: Database, seasonID: number): Promise<Array<Serial>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT serials.* FROM serials WHERE serials.season_id = ? ORDER BY serials.id', [seasonID], function (err, rows: Array<SerialRow>, fields) {
@@ -97,6 +101,7 @@ export class Season {
 	 * @param {object} connection SQLite connection
 	 * @returns {Array} Array of Season objects
 	 */
+	@memoize
 	static all(connection: Database): Promise<Array<Season>> {
 		return new Promise(function (resolve, reject) {
 			connection.all('SELECT * FROM seasons ORDER BY id', [], function (err, rows: Array<SeasonRow>, fields) {

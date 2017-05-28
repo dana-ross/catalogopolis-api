@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+
+<head>
+    <style>
+        body {
+            color: #fff;
+            background-color: #003D6B;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 5vw;
+            font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+            line-height: 1.4;
+        }
+
+        h1 {
+            margin-bottom: -1.2rem;
+        }
+
+        p {
+            text-shadow: #333333 1px 1px 1px;
+        }
+
+        a {
+            color: #aaaaff;
+            text-decoration: none;
+            border-bottom: 1px solid #aaaaff;
+        }
+
+        .circular_gallifreyan {
+            position: absolute;
+            background-position: top left;
+            background-repeat: no-repeat;
+            background-size: contain;
+            animation-duration: 500000ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            opacity: .2;
+			z-index: -1;
+        }
+
+        #cg_dave_ross {
+            top: 40vh;
+            left: 60vw;
+            width: 60vw;
+            height: 60vw;
+            background-image: url('cg dave ross.svg');
+            animation-name: spin_cg_dave_ross;
+        }
+
+        #cg_catalogopolis {
+            top: 0vh;
+            left: 50vw;
+            width: 10vw;
+            height: 10vw;
+            background-image: url('cg catalogopolis api.svg');
+            animation-name: spin_cg_catalogopolis;
+        }
+
+        #cg_mcgann {
+            top: 20vh;
+            left: 10vw;
+            width: 30vw;
+            height: 30vw;
+            background-image: url('cg paul mcgann is my doctor.svg');
+            animation-name: spin_cg_mcgann;
+        }
+
+
+        @keyframes spin_cg_dave_ross {
+            from {
+                transform: rotate(0deg) translateX(20px) translateY(20px);
+            }
+            to {
+                transform: rotate(360deg) translateX(20px) translateY(20px);
+            }
+        }
+
+        @keyframes spin_cg_catalogopolis {
+            from {
+                transform: rotate(360deg) translateX(50px) translateY(50px);
+            }
+            to {
+                transform: rotate(0deg) translateX(50px) translateY(50px);
+            }
+        }
+
+        @keyframes spin_cg_mcgann {
+            from {
+                transform: rotate(360deg) translateX(30px) translateY(30px);
+            }
+            to {
+                transform: rotate(0deg) translateX(30px) translateY(30px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div role="presentation" id="cg_dave_ross" class="circular_gallifreyan"></div>
+    <div role="presentation" id="cg_catalogopolis" class="circular_gallifreyan"></div>
+    <div role="presentation" id="cg_mcgann" class="circular_gallifreyan"></div>
+    <header>
+        <h1>Catalogopolis API</h1>
+        <h2>Doctor Who episodes and the people behind the magic.</h2>
+        <p></p>
+    </header>
+    <main>
+        <h2>API Documentation</h2>
+        <nav>
+            <ul>
+                <li>REST
+					<ul>
+						<li><a href="restapi/index.html">Docs</a></li>
+					</ul>
+				</li>
+                <li>
+					GraphQL
+					<ul>
+						<li><a href="graphql/index.html">Docs</a></li>
+						<li><a href="https://api.catalogopolis.xyz/graphql">GraphiQL</a></li>
+					</ul>
+				</li>
+            </ul>
+        </nav>
+        <aside>
+            <h3>Dave Ross</h3>
+            <p>I'm a Boston-area web developer with solid experience in “back-end” development, including content management
+                systems, and a passion for engineering leadership, design, and user experience engineering. <a href="https://davidmichaelross.com" rel="nofollow">View my homepage</a></p>
+        </aside>
+    </main>
+    <footer>
+        <p>&copy; 2017 Dave Ross. This fan project is not produced, supported, or endorsed by the BBC, Doctor Who, Big Finish,
+            or any related party or organization.</p>
+    </footer>
+</body>
+
+</html>

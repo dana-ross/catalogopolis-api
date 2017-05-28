@@ -1,3 +1,4 @@
 node_modules
-restapidoc
 test/tests.js
+docs/restapi
+docs/graphql

@@ -93,6 +93,34 @@
                 transform: rotate(0deg) translateX(30px) translateY(30px);
             }
         }
+
+		#colophon {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+
+		}
+		#colophon > img {
+			max-width: 10rem;
+			display: inline-block;
+		}
+
+		#colophon a {
+			border-bottom: none;
+			text-decoration: underline;
+		}
+
+		a[href*="github.com"]:before {
+			content: "";
+			height: 1rem;
+			width: 1rem;
+			background: url(github.svg) top left no-repeat;
+			background-size: 1rem 1rem;
+			display: inline-block;
+			margin-right: .25rem;
+			position: relative;
+			top: .2rem;
+		}
     </style>
 </head>
 
@@ -132,6 +160,11 @@
     <footer>
         <p>&copy; 2017 Dave Ross. This fan project is not produced, supported, or endorsed by the BBC, Doctor Who, Big Finish,
             or any related party or organization.</p>
+		<div id="colophon">
+			<img src="Node.js_logo.svg" alt="Built with Node.js" />
+			<a href="https://github.com/daveross/catalogopolis-api">API source code</a>
+			<a href="https://github.com/daveross/doctor-who-episodes">Doctor Who Episode database</a>
+		</div>
     </footer>
 </body>
 

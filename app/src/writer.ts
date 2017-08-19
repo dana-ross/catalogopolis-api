@@ -39,7 +39,7 @@ export class Writer {
 						resolve(Writer.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve()
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });
@@ -86,7 +86,7 @@ export class Writer {
 						resolve(Writer.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });

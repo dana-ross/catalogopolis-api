@@ -50,6 +50,10 @@ export default function (server, connection) {
 					type: GraphQLString,
 					description: 'Actor name'
 				},
+				gender: {
+					type: GraphQLString,
+					description: 'Actor gender'
+				},
 				doctors: {
 					type: new GraphQLList(doctorType),
 					description: "Doctors this actor has portrayed",
@@ -366,12 +370,17 @@ export default function (server, connection) {
 						name: {
 							description: 'Name of this actor',
 							type: GraphQLString
+						},
+						gender: {
+							description: 'Gender of this actor',
+							type: GraphQLString
 						}
 					},
-					resolve: (root, { id, name }) => {
+					resolve: (root, { id, name, gender }) => {
 						return uniquePromiseResults(
 							id ? Actor.forID(connection, id) : null,
-							name ? Actor.forName(connection, name) : null
+							name ? Actor.forName(connection, name) : null,
+							gender ? Actor.forGender(connection, gender) : null
 						)
 					}
 				},

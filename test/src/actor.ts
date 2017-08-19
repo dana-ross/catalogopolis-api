@@ -4,7 +4,7 @@
 
 import 'mocha'
 import {assert, expect} from 'chai'
-import { Actor } from "../../app/src/actor"
+import { Actor, Gender } from "../../app/src/actor"
 
 describe('Actor', function () {
 
@@ -26,7 +26,7 @@ describe('Actor', function () {
 	})
 
 	it('instantiates a new Actor from an object or database row', () => {
-		let actor = Actor.fromRow({id: 5, name: 'Test', links: []})
+		let actor = Actor.fromRow({id: 5, name: 'Test', gender: Gender["male"], links: []})
 	})
 
 })

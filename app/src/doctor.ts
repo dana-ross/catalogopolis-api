@@ -42,7 +42,7 @@ export class Doctor implements DBRecord {
 						resolve(Doctor.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });
@@ -90,7 +90,7 @@ export class Doctor implements DBRecord {
 						resolve(Doctor.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });

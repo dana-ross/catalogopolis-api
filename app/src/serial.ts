@@ -70,7 +70,7 @@ export class Serial implements DBRecord {
 						resolve(Serial.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });

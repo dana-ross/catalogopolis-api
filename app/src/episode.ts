@@ -54,7 +54,7 @@ export class Episode {
 					if (rows && rows.length) {
 						resolve(Episode.fromRow(rows[0]).addHATEAOS());
 					} else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({

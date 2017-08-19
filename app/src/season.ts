@@ -38,7 +38,7 @@ export class Season {
 						resolve(Season.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });
@@ -62,7 +62,7 @@ export class Season {
 						resolve(Season.fromRow(rows[0]).addHATEAOS());
 					}
 					else {
-						resolve([]);
+						resolve();
 					}
 				} else {
 					reject({ error: { message: 'Error while performing Query.' } });

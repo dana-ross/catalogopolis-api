@@ -14,7 +14,7 @@ import { Request, Response } from "polka"
  */
 const processSuccessfulQueryResults = (res: Response) => {
 	return function (value: any) {
-		res.setHeader('Content-Type', 'application/json');
+		res.setHeader('Content-Type', 'application/json')
 		res.write(JSON.stringify(value))
 	}
 }

@@ -486,7 +486,7 @@ export default function (server, connection) {
 						},
 
 					},
-					resolve: (root, {id, title, originalAirDate, missing}) => {
+					resolve: (root, { id, title, originalAirDate, missing }) => {
 							return uniquePromiseResults(
 								id ? Episode.forID(connection, id) : null,
 								title ? Episode.forTitle(connection, title) : null,

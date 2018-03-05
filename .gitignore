@@ -1,3 +1,4 @@
 node_modules
 test/tests.js
 .env
+npm-debug.log

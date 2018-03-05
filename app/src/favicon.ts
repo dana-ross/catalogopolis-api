@@ -13,9 +13,9 @@ import { Application, Request, Response } from 'polka'
 export default function (server: Application) {
 	server.use((req: Request, res: Response, next: Function) => {
 		if (req.url === '/favicon.ico') {
-			res.status(200)
-			res.type('image/x-icon')
-			res.send('')
+			res.statusCode = 200
+			res.setHeader('Content-Type', 'image/x-icon');
+			res.write('')
 			return
 		}
 

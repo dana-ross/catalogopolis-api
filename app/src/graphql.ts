@@ -529,9 +529,9 @@ export default function (server, connection) {
 		 * @see https://medium.com/workflowgen/graphql-query-timeout-and-complexity-management-fab4d7315d8d
 		 * @throws Will throw an error once the cost threshold has been surpassed.
 		 */
-		req.incrementResolverCount = function() {
-			if(++this.resolverCount > 2000) {
-				throw('Cost limiting is in effect. Query complexity was too high.')
+		req.incrementResolverCount = function () {
+			if (++this.resolverCount > 2000) {
+				throw ('Cost limiting is in effect. Query complexity was too high.')
 			}
 		}
 		next()

@@ -5,7 +5,7 @@ import { Director } from "./director"
 import { Season } from "./season"
 import { Actor } from "./actor"
 import { Episode } from "./episode"
-import { Request, Response } from "express"
+import { Request, Response } from "polka"
 
 /**
  * Output the result of a successful query
@@ -14,8 +14,8 @@ import { Request, Response } from "express"
  */
 const processSuccessfulQueryResults = (res: Response) => {
 	return function (value: any) {
-		res.type('json')
-		res.send(value);
+		res.setHeader('Content-Type', 'application/json');
+		res.write(JSON.stringify(value))
 	}
 }
 
@@ -26,7 +26,8 @@ const processSuccessfulQueryResults = (res: Response) => {
  */
 const processFailedQueryResults = (res: Response) => {
 	return function (reason) {
-		res.status(404).send('Error');
+		res.statusCode = 404
+		res.write('Error')
 	}
 }
 

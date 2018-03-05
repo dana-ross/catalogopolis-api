@@ -3,7 +3,7 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import { Application, Request, Response } from 'express'
+import { Application, Request, Response } from 'polka'
 
 /**
  * Register middleware to silently "handle" favicon requests

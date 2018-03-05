@@ -3,15 +3,15 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import {GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean} from "graphql"
+import { GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean } from "graphql"
 import graphqlHTTP from "express-graphql"
-import {Doctor} from "./doctor"
-import {Director} from "./director"
-import {Writer} from "./writer"
-import {Season} from "./season"
-import {Serial} from "./serial"
-import {Actor} from "./actor"
-import {Episode} from "./episode"
+import { Doctor } from "./doctor"
+import { Director } from "./director"
+import { Writer } from "./writer"
+import { Season } from "./season"
+import { Serial } from "./serial"
+import { Actor } from "./actor"
+import { Episode } from "./episode"
 import CostLimitedRequest from "./interfaces/costlimitedrequest"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,

@@ -30,7 +30,9 @@ function uniquePromiseResults(...promises) {
 		).then(
 			values => resolve(arrayAllSame(values) ? values[0] : null),
 			reason => reject(reason)
-			);
+		).catch((reason: any) => {
+			throw "Error aggregating promise results: " + reason
+		});
 	});
 }
 
@@ -58,11 +60,12 @@ export default function (server, connection) {
 					type: new GraphQLList(doctorType),
 					description: "Doctors this actor has portrayed",
 					resolve: (parent, args, context) => {
-						return new Promise((resolve, reject)=> {
+						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Actor.doctors(connection, parent.id).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
+								(value) => resolve(value)
+							).catch(
+								(reason: any) => reject(reason)
 							)
 						})
 					}
@@ -91,8 +94,9 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Actor.forID(connection, parent.primaryActorID).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
+								(value) => resolve(value)
+							).catch(
+								(reason: any) => reject(reason)
 							)
 						});
 					}
@@ -104,7 +108,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Doctor.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -134,7 +139,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Director.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -164,7 +170,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Writer.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -194,7 +201,8 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Serial.forID(connection, parent.serialID).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -252,7 +260,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Season.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -278,7 +287,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Season.forID(connection, parent.seasonID).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -307,7 +317,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Doctor.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -320,7 +331,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Director.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -333,7 +345,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Writer.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -346,7 +359,8 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Episode.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -487,13 +501,13 @@ export default function (server, connection) {
 
 					},
 					resolve: (root, { id, title, originalAirDate, missing }) => {
-							return uniquePromiseResults(
-								id ? Episode.forID(connection, id) : null,
-								title ? Episode.forTitle(connection, title) : null,
-								originalAirDate ? Episode.forOriginalAirDate(connection, originalAirDate) : null,
-								missing ? Episode.forMissingStatus(connection, missing) : null
-							);
-						}
+						return uniquePromiseResults(
+							id ? Episode.forID(connection, id) : null,
+							title ? Episode.forTitle(connection, title) : null,
+							originalAirDate ? Episode.forOriginalAirDate(connection, originalAirDate) : null,
+							missing ? Episode.forMissingStatus(connection, missing) : null
+						);
+					}
 				},
 				serial: {
 					type: serialType,

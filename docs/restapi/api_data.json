@@ -83,6 +83,95 @@
   },
   {
     "type": "get",
+    "url": "/companions/:id",
+    "title": "Retrieve a single Companion",
+    "name": "GetCompanion",
+    "group": "Companion",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Companion ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Companion ID.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>The Companion's name.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "app/src/restv1.ts",
+    "groupTitle": "Companion"
+  },
+  {
+    "type": "get",
+    "url": "/companions",
+    "title": "Retrieve all Companions",
+    "name": "GetCompanions",
+    "group": "Companion",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "List",
+            "description": "<p>of Companions.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "app/src/restv1.ts",
+    "groupTitle": "Companion"
+  },
+  {
+    "type": "get",
+    "url": "/companions/:id/serials",
+    "title": "Retrieve all serials with a Companion",
+    "name": "GetSerialsForCompanion",
+    "group": "Companion",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Companion ID</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "app/src/restv1.ts",
+    "groupTitle": "Companion"
+  },
+  {
+    "type": "get",
     "url": "/directors/:id",
     "title": "Retrieve a single Director",
     "name": "GetDirector",
@@ -429,6 +518,29 @@
     "url": "/serials/:id",
     "title": "Retrieve a single Serial",
     "name": "GetSerial",
+    "group": "Serial",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Serial ID</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "app/src/restv1.ts",
+    "groupTitle": "Serial"
+  },
+  {
+    "type": "get",
+    "url": "/serials/:id/companions",
+    "title": "Retrieve all Companions of a Serial",
+    "name": "GetSerialCompanions",
     "group": "Serial",
     "parameter": {
       "fields": {

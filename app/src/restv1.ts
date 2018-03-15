@@ -6,6 +6,7 @@ import { Season } from "./season"
 import { Actor } from "./actor"
 import { Episode } from "./episode"
 import { Request, Response } from "polka"
+import { Companion } from "./companion";
 
 /**
  * Output the result of a successful query
@@ -187,6 +188,24 @@ export default function (server, connection) {
 	}
 
 	/**
+	 * @api {get} /serials/:id/companions Retrieve all Companions of a Serial
+	 * @apiName GetSerialCompanions
+	 * @apiGroup Serial
+	 *
+	 * @apiParam {Number} id Serial ID
+	 */
+	server.get('/serials/:id/companions', companionsOfSerialByIDV1);
+	server.get('/v1/serials/:id/companions', companionsOfSerialByIDV1);
+
+	function companionsOfSerialByIDV1(req: Request, res: Response) {
+		Companion.forSerialID(connection, req.params.id).then(
+			processSuccessfulQueryResults(res)
+		).catch(
+			processFailedQueryResults(res)
+		)
+	}
+
+	/**
 	 * @api {get} /serials/:id/writers Retrieve all Writers of a Serial
 	 * @apiName GetSerialWriters
 	 * @apiGroup Serial
@@ -330,6 +349,63 @@ export default function (server, connection) {
 
 	function serialsForDirectorV1(req: Request, res: Response) {
 		Director.serials(connection, req.params.id).then(
+			processSuccessfulQueryResults(res)
+		).catch(
+			processFailedQueryResults(res)
+		)
+	}
+
+	/**
+	 * @api {get} /companions Retrieve all Companions
+	 * @apiName GetCompanions
+	 * @apiGroup Companion
+	 *
+	 * @apiSuccess {Object[]} List of Companions.
+	 */
+	server.get('/companions', allCompanionsV1);
+	server.get('/v1/compansions', allCompanionsV1);
+
+	function allCompanionsV1(req: Request, res: Response) {
+		Companion.all(connection).then(
+			processSuccessfulQueryResults(res)
+		).catch(
+			processFailedQueryResults(res)
+		)
+	}
+
+	/**
+	 * @api {get} /companions/:id Retrieve a single Companion
+	 * @apiName GetCompanion
+	 * @apiGroup Companion
+	 *
+	 * @apiParam {Number} id Companion ID
+	 *
+	 * @apiSuccess {Number} id Companion ID.
+	 * @apiSuccess {String} name The Companion's name.
+	 */
+	server.get('/companions/:id', companionByIDV1);
+	server.get('/v1/companions/:id', companionByIDV1);
+
+	function companionByIDV1(req: Request, res: Response) {
+		Companion.forID(connection, req.params.id).then(
+			processSuccessfulQueryResults(res)
+		).catch(
+			processFailedQueryResults(res)
+		)
+	}
+
+	/**
+	 * @api {get} /companions/:id/serials Retrieve all serials with a Companion
+	 * @apiName GetSerialsForCompanion
+	 * @apiGroup Companion
+	 *
+	 * @apiParam {Number} id Companion ID
+	 */
+	server.get('/companions/:id/serials', serialsForCompanionV1);
+	server.get('/v1/companions/:id/serials', serialsForCompanionV1);
+
+	function serialsForCompanionV1(req: Request, res: Response) {
+		Companion.serials(connection, req.params.id).then(
 			processSuccessfulQueryResults(res)
 		).catch(
 			processFailedQueryResults(res)

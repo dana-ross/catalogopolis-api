@@ -16,7 +16,7 @@ import { Companion } from "./companion";
 const processSuccessfulQueryResults = (res: Response) => {
 	return function (value: any) {
 		res.setHeader('Content-Type', 'application/json')
-		res.write(JSON.stringify(value))
+		res.end(JSON.stringify(value))
 	}
 }
 
@@ -28,7 +28,7 @@ const processSuccessfulQueryResults = (res: Response) => {
 const processFailedQueryResults = (res: Response) => {
 	return function (reason) {
 		res.statusCode = 404
-		res.write('Error')
+		res.end('Error')
 	}
 }
 

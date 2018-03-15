@@ -12,6 +12,7 @@ import { Season } from "./season"
 import { Serial } from "./serial"
 import { Actor } from "./actor"
 import { Episode } from "./episode"
+import { Companion } from "./companion"
 import CostLimitedRequest from "./interfaces/costlimitedrequest"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
@@ -139,6 +140,37 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Director.serials(connection, parent.id).then(
+								(value) => resolve(value)
+							).catch(
+								(reason) => reject(reason)
+							)
+						});
+					}
+				}
+			}
+		}
+	});
+
+	var companionType = new GraphQLObjectType({
+		name: 'Companion',
+		description: 'A companion of the Doctor',
+		fields: function () {
+			return {
+				id: {
+					type: GraphQLID,
+					description: 'Companion ID'
+				},
+				name: {
+					type: GraphQLString,
+					description: 'Companion name'
+				},
+				serials: {
+					type: new GraphQLList(serialType),
+					description: 'Serials',
+					resolve: (parent, args, context) => {
+						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
+							Companion.serials(connection, parent.id).then(
 								(value) => resolve(value)
 							).catch(
 								(reason) => reject(reason)
@@ -324,6 +356,20 @@ export default function (server, connection) {
 						});
 					}
 				},
+				companions: {
+					type: new GraphQLList(companionType),
+					description: 'Companions who appear in this serial',
+					resolve: (parent, args, context) => {
+						return new Promise(function (resolve, reject) {
+							context.incrementResolverCount()
+							Companion.forSerialID(connection, parent.id).then(
+								(value) => resolve(value)
+							).catch(
+								(reason) => reject(reason)
+							)
+						});
+					}
+				},
 				directors: {
 					type: new GraphQLList(directorType),
 					description: 'Directors of this serial',
@@ -421,6 +467,25 @@ export default function (server, connection) {
 							primaryActorID ? Doctor.forPrimaryActorID(connection, primaryActorID) : null
 						);
 					},
+				},
+				companion: {
+					type: companionType,
+					args: {
+						id: {
+							description: 'Companion ID',
+							type: GraphQLID
+						},
+						name: {
+							description: 'Companion name',
+							type: GraphQLString
+						}
+					},
+					resolve: (root, { id, name }) => {
+						return uniquePromiseResults(
+							id ? Companion.forID(connection, id) : null,
+							name ? Companion.forName(connection, name) : null
+						);
+					}
 				},
 				director: {
 					type: directorType,

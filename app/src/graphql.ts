@@ -3,15 +3,15 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import {GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean} from "graphql"
+import { GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean } from "graphql"
 import graphqlHTTP from "express-graphql"
-import {Doctor} from "./doctor"
-import {Director} from "./director"
-import {Writer} from "./writer"
-import {Season} from "./season"
-import {Serial} from "./serial"
-import {Actor} from "./actor"
-import {Episode} from "./episode"
+import { Doctor } from "./doctor"
+import { Director } from "./director"
+import { Writer } from "./writer"
+import { Season } from "./season"
+import { Serial } from "./serial"
+import { Actor } from "./actor"
+import { Episode } from "./episode"
 import CostLimitedRequest from "./interfaces/costlimitedrequest"
 
 const objectIDsEqual = (x, y) => x.id !== undefined && y.id !== undefined && x.id === y.id,
@@ -30,7 +30,9 @@ function uniquePromiseResults(...promises) {
 		).then(
 			values => resolve(arrayAllSame(values) ? values[0] : null),
 			reason => reject(reason)
-			);
+		).catch((reason: any) => {
+			throw "Error aggregating promise results: " + reason
+		});
 	});
 }
 
@@ -58,11 +60,12 @@ export default function (server, connection) {
 					type: new GraphQLList(doctorType),
 					description: "Doctors this actor has portrayed",
 					resolve: (parent, args, context) => {
-						return new Promise((resolve, reject)=> {
+						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Actor.doctors(connection, parent.id).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
+								(value) => resolve(value)
+							).catch(
+								(reason: any) => reject(reason)
 							)
 						})
 					}
@@ -91,8 +94,9 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Actor.forID(connection, parent.primaryActorID).then(
-								(value) => resolve(value),
-								(reason) => reject(reason)
+								(value) => resolve(value)
+							).catch(
+								(reason: any) => reject(reason)
 							)
 						});
 					}
@@ -104,7 +108,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Doctor.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -134,7 +139,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Director.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -164,7 +170,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Writer.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -194,7 +201,8 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Serial.forID(connection, parent.serialID).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -252,7 +260,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Season.serials(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -278,7 +287,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Season.forID(connection, parent.seasonID).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -307,7 +317,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Doctor.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -320,7 +331,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Director.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -333,7 +345,8 @@ export default function (server, connection) {
 						return new Promise(function (resolve, reject) {
 							context.incrementResolverCount()
 							Writer.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -346,7 +359,8 @@ export default function (server, connection) {
 						return new Promise((resolve, reject) => {
 							context.incrementResolverCount()
 							Episode.forSerialID(connection, parent.id).then(
-								(value) => resolve(value),
+								(value) => resolve(value)
+							).catch(
 								(reason) => reject(reason)
 							)
 						});
@@ -486,14 +500,14 @@ export default function (server, connection) {
 						},
 
 					},
-					resolve: (root, {id, title, originalAirDate, missing}) => {
-							return uniquePromiseResults(
-								id ? Episode.forID(connection, id) : null,
-								title ? Episode.forTitle(connection, title) : null,
-								originalAirDate ? Episode.forOriginalAirDate(connection, originalAirDate) : null,
-								missing ? Episode.forMissingStatus(connection, missing) : null
-							);
-						}
+					resolve: (root, { id, title, originalAirDate, missing }) => {
+						return uniquePromiseResults(
+							id ? Episode.forID(connection, id) : null,
+							title ? Episode.forTitle(connection, title) : null,
+							originalAirDate ? Episode.forOriginalAirDate(connection, originalAirDate) : null,
+							missing ? Episode.forMissingStatus(connection, missing) : null
+						);
+					}
 				},
 				serial: {
 					type: serialType,
@@ -529,9 +543,9 @@ export default function (server, connection) {
 		 * @see https://medium.com/workflowgen/graphql-query-timeout-and-complexity-management-fab4d7315d8d
 		 * @throws Will throw an error once the cost threshold has been surpassed.
 		 */
-		req.incrementResolverCount = function() {
-			if(++this.resolverCount > 2000) {
-				throw('Cost limiting is in effect. Query complexity was too high.')
+		req.incrementResolverCount = function () {
+			if (++this.resolverCount > 2000) {
+				throw ('Cost limiting is in effect. Query complexity was too high.')
 			}
 		}
 		next()

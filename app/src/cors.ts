@@ -9,6 +9,7 @@ export default function corsAllowAll(server: Application) {
 
 	server.use("/graphql", function (req: Request, res: Response, next: Function) {
 		res.setHeader('Access-Control-Allow-Origin', '*')
+		res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS' )
 		if (req.method === 'OPTIONS') {
 		  res.statusCode = 200
 		  res.end()

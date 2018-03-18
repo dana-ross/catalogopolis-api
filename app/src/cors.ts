@@ -14,6 +14,7 @@ export default function corsAllowAll(server: Application) {
 	server.options("/*", function(req, res, next){
 		res.header('Access-Control-Allow-Origin', '*')
 		res.header('Access-Control-Allow-Methods', 'GET,OPTIONS')
+		res.send(200)
 		next()
 	})
 

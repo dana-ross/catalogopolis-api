@@ -13,6 +13,7 @@ import graphql from "./graphql"
 import * as path from "path"
 import analytics from "./analytics"
 import favicon from "./favicon"
+import cors from "./cors"
 
 var connection: Database = new Database('catalogopolis-api.sqlite');
 
@@ -24,6 +25,7 @@ if(!process.env.CATALOGOPOLIS_API_UA) {
 
 favicon(server)
 analytics(server, process.env.CATALOGOPOLIS_API_UA)
+cors(server)
 restv1(server, connection);
 graphql(server, connection);
 

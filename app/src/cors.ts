@@ -6,16 +6,15 @@
 import { Application, Request, Response } from "polka"
 
 export default function corsAllowAll(server: Application) {
-	server.use((req: Request, res: Response, next: Function) => {
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		next()
-	})
 
-	server.options("/*", function(req, res, next){
-		res.header('Access-Control-Allow-Origin', '*')
-		res.header('Access-Control-Allow-Methods', 'GET,OPTIONS')
-		res.send(200)
-		next()
-	})
+	server.use("/graphql", function (req: Request, res: Response, next: Function) {
+		res.header('Access-Control-Allow-Origin', '*');
+		res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+		if (req.method === 'OPTIONS') {
+		  res.sendStatus(200);
+		} else {
+		  next();
+		}
+	});
 
 }

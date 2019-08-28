@@ -1,7 +1,7 @@
 {
   "name": "catalogopolis-api",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "API with information on Doctor Who episodes and related data.",
   "author": "Dave Ross <dave@davidmichaelross.com>",
   "main": "app/dist/bundle.js",

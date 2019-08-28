@@ -5,10 +5,10 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
 	entry: "./app/src/server.ts",
 	output: {
-		filename: "app/dist/bundle.js"
+		filename: "bundle.js"
 	},
 	module: {
-		loaders: [
+		rules: [
 			// note that babel-loader is configured to run after ts-loader
 			{
 				test: /\.ts(x?)$/,
@@ -20,13 +20,14 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
-		new webpack.optimize.UglifyJsPlugin({minimize: true})
-
-	],
+	plugins: [],
 	resolve: {
 		extensions: [".webpack.js", ".web.js", ".ts", ".js"]
 	},
 	target: "node",
-	externals: [nodeExternals()]
+	mode: "production",
+	externals: [nodeExternals()],
+	optimization: {
+		minimize: true
+	}
 }

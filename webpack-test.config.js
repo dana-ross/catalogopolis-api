@@ -8,7 +8,7 @@ module.exports = {
 		filename: "test/tests.js"
 	},
 	module: {
-		loaders: [
+		rules: [
 			// note that babel-loader is configured to run after ts-loader
 			{
 				test: /\.ts(x?)$/,

@@ -4,3 +4,4 @@ node_js:
 cache:
   directories:
     - "node_modules"
+install: case $TRAVIS_BRANCH in greenkeeper*) npm i;; *) npm ci;; esac;

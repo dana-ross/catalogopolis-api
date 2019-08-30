@@ -12,7 +12,7 @@
     "apidoc-w": "node_modules\\.bin\\apidoc -i app -o docs\\restapi",
     "graphqldoc": "node_modules/.bin/graphdoc --force -e http://localhost:5000/graphql -o docs/graphql",
     "pretest": "node_modules/.bin/webpack --config=webpack-test.config.js",
-    "test": "node_modules/.bin/mocha",
+    "test": "node_modules/.bin/mocha 'dist/test/*.js'",
     "lint": "eslint --ext .js,.ts app/src --fix"
   },
   "devDependencies": {

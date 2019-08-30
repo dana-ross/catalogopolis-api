@@ -4,7 +4,6 @@
  */
 
 import DBRecord from "./interfaces/dbrecord"
-import Named from "./interfaces/named"
 import { Database } from 'sqlite3'
 import HATEAOSLink from "./interfaces/hateaoslink"
 import memoize from "memoized-class-decorator"
@@ -35,12 +34,12 @@ export class Serial implements DBRecord {
 	 * Returns a single Serial object for a given database ID
 	 * @param {object} connection SQLite connection
 	 * @param {number} id Serial database ID
-	 * @returns {Serial}
+	 * @returns {Promise<Serial>}
 	 */
 	@memoize
-	static forID(connection, id) {
-		return new Promise(function (resolve, reject) {
-			connection.all('SELECT * FROM serials WHERE id = ?', [id], function (err, rows: Array<SerialRow>, fields) {
+	static forID(connection, id): Promise<Serial> {
+		return new Promise(function (resolve, reject): void {
+			connection.all('SELECT * FROM serials WHERE id = ?', [id], function (err, rows: Array<SerialRow> /*, fields */): void {
 				if (!err) {
 					if (rows && rows.length) {
 						resolve(Serial.fromRow(rows[0]).addHATEAOS());
@@ -59,12 +58,12 @@ export class Serial implements DBRecord {
 	 * Returns a single Season by the Serial's title
 	 * @param {object} connection SQLite connection
 	 * @param {string} name The Serial's name
-	 * @returns {Promise} Single Serial record
+	 * @returns {Promise<Serial>} Single Serial record
 	 */
 	@memoize
 	static forTitle(connection: Database, title: string): Promise<Serial> {
-		return new Promise(function (resolve, reject) {
-			connection.all('SELECT * FROM serials WHERE title = ?', [title], function (err, rows: Array<SerialRow>, fields) {
+		return new Promise(function (resolve, reject): void {
+			connection.all('SELECT * FROM serials WHERE title = ?', [title], function (err, rows: Array<SerialRow> /*, fields */) {
 				if (!err) {
 					if (rows && rows.length) {
 						resolve(Serial.fromRow(rows[0]).addHATEAOS());
@@ -86,8 +85,8 @@ export class Serial implements DBRecord {
 	 */
 	@memoize
 	static all(connection: Database): Promise<Array<Serial>> {
-		return new Promise(function (resolve, reject) {
-			connection.all('SELECT * FROM serials ORDER BY id', [], function (err, rows: Array<SerialRow>, fields) {
+		return new Promise(function (resolve, reject): void {
+			connection.all('SELECT * FROM serials ORDER BY id', [], function (err, rows: Array<SerialRow> /*, fields */): void {
 				if (!err) {
 					if (rows && rows.length) {
 						resolve(rows.map(function (x) { return Serial.fromRow(x).addHATEAOS(); }, rows));

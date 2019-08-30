@@ -9,17 +9,17 @@ import { Database } from 'sqlite3'
 import memoize from "memoized-class-decorator"
 
 export interface EpisodeRow extends DBRecord {
-	id: number
-	links: Array<HATEAOSLink>
-	title: string
-	serial_id: number
-	episode_order: number
-	original_air_date: string
-	runtime: string
-	uk_viewers_mm: number
-	appreciation_index: number
-	missing: number
-	recreated: number
+	id: number;
+	links: Array<HATEAOSLink>;
+	title: string;
+	serial_id: number;
+	episode_order: number;
+	original_air_date: string;
+	runtime: string;
+	uk_viewers_mm: number;
+	appreciation_index: number;
+	missing: number;
+	recreated: number;
 }
 
 /**
@@ -65,7 +65,7 @@ export class Episode {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Episode objects in the system
@@ -88,7 +88,7 @@ export class Episode {
 				}
 			});
 		});
-	};
+	}
 
 
 	/**
@@ -114,7 +114,7 @@ export class Episode {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Episode objects with a given title
@@ -138,7 +138,7 @@ export class Episode {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Episode objects that premiered on a given date
@@ -162,7 +162,7 @@ export class Episode {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Episode objects with a given "missing" status
@@ -186,7 +186,7 @@ export class Episode {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a new Epiosode object populated from a basic JavaScript object (database result row)
@@ -195,7 +195,7 @@ export class Episode {
 	 * @static
 	 */
 	static fromRow = function (row: EpisodeRow): Episode {
-		var episode = new Episode();
+		const episode = new Episode();
 
 		row.id ? (episode.id = row.id) : undefined;
 		row.title ? (episode.title = row.title) : undefined;
@@ -219,7 +219,7 @@ export class Episode {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/episodes/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to an Episode object

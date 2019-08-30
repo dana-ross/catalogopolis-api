@@ -40,7 +40,7 @@ function uniquePromiseResults(...promises) {
 
 export default function (server, connection) {
 
-	var actorType = new GraphQLObjectType({
+	const actorType = new GraphQLObjectType({
 		name: 'Actor',
 		description: 'An actor',
 		fields: function () {
@@ -120,7 +120,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var directorType = new GraphQLObjectType({
+	const directorType = new GraphQLObjectType({
 		name: 'Director',
 		description: 'The director of an episode',
 		fields: function () {
@@ -151,7 +151,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var companionType = new GraphQLObjectType({
+	const companionType = new GraphQLObjectType({
 		name: 'Companion',
 		description: 'A companion of the Doctor',
 		fields: function () {
@@ -182,7 +182,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var writerType = new GraphQLObjectType({
+	const writerType = new GraphQLObjectType({
 		name: 'Writer',
 		description: 'The writer of an episode',
 		fields: function () {
@@ -213,7 +213,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var episodeType = new GraphQLObjectType({
+	const episodeType = new GraphQLObjectType({
 		name: 'Episode',
 		description: 'An episode of a Serial, or a single episode of the show',
 		fields: function () {
@@ -272,7 +272,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var seasonType = new GraphQLObjectType({
+	const seasonType = new GraphQLObjectType({
 		name: 'Season',
 		description: 'A season of the show',
 		fields: function () {
@@ -416,7 +416,7 @@ export default function (server, connection) {
 		}
 	});
 
-	var schema = new GraphQLSchema({
+	const schema = new GraphQLSchema({
 		query: new GraphQLObjectType({
 			name: 'RootQueryType',
 			fields: {

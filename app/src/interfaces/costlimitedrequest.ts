@@ -4,8 +4,8 @@
  */
 
 interface CostLimitedRequest extends Request {
-	resolverCount: number
-	incrementResolverCount: Function
+	resolverCount: number;
+	incrementResolverCount: Function;
 }
 
 export default CostLimitedRequest

@@ -10,11 +10,11 @@ import HATEAOSLink from "./interfaces/hateaoslink"
 import memoize from "memoized-class-decorator"
 
 export interface SerialRow extends DBRecord {
-	season_id: number
-	story: number
-	serial: number
-	title: string
-	production_code: string
+	season_id: number;
+	story: number;
+	serial: number;
+	title: string;
+	production_code: string;
 }
 
 /**
@@ -53,7 +53,7 @@ export class Serial implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Season by the Serial's title
@@ -77,7 +77,7 @@ export class Serial implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Serial objects in the system
@@ -100,7 +100,7 @@ export class Serial implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a new Serial object populated from a basic JavaScript object (database result row)
@@ -109,7 +109,7 @@ export class Serial implements DBRecord {
 	 * @static
 	 */
 	static fromRow(row: SerialRow): Serial {
-		var serial = new Serial();
+		const serial = new Serial();
 		row.id ? (serial.id = row.id) : undefined;
 		row.season_id ? (serial.seasonID = row.season_id) : undefined;
 		row.story ? (serial.story = row.story) : undefined;
@@ -127,7 +127,7 @@ export class Serial implements DBRecord {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/serials/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Serial object

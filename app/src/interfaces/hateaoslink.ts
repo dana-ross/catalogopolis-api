@@ -4,8 +4,8 @@
  */
 
 interface HATEAOSLink {
-	rel: string
-	href: string
+	rel: string;
+	href: string;
 }
 
 export default HATEAOSLink

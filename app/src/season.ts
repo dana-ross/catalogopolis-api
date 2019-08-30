@@ -45,7 +45,7 @@ export class Season {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Season by the Season's name ("Season X", "Series X")
@@ -69,7 +69,7 @@ export class Season {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Serial objects for a given Season ID
@@ -94,7 +94,7 @@ export class Season {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Season objects in the system
@@ -117,7 +117,7 @@ export class Season {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a new Season object populated from a basic JavaScript object (database result row)
@@ -126,7 +126,7 @@ export class Season {
 	 * @static
 	 */
 	static fromRow(row: SeasonRow): Season {
-		var season = new Season();
+		const season = new Season();
 		row.id ? (season.id = row.id) : undefined;
 		row.name ? (season.name = row.name) : undefined;
 		return season;
@@ -140,7 +140,7 @@ export class Season {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/seasons/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Season object

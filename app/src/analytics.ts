@@ -7,7 +7,7 @@ import ua from "universal-analytics"
  * @param req {TimedRequest} Express Request object
  * @return String
  */
-function requestType(req: Request) : String {
+function requestType(req: Request): string {
 	if(req.originalUrl.match(/^\/graphql\??/)) {
 		return req.method === 'GET' ? 'GraphiQL' : 'GraphQL'
 	}
@@ -22,7 +22,7 @@ function requestType(req: Request) : String {
  * @param server Application Express server object
  * @param trackingID String Analytics tracking ID
  */
-export default function register(server: Application, trackingID: String) {
+export default function register(server: Application, trackingID: string) {
 	server.use((req: Request, res: Response, next: Function) => {
 		req.timingData = {
 			'start': Date.now()

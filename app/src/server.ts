@@ -13,9 +13,9 @@ import analytics from "./analytics"
 import favicon from "./favicon"
 import cors from "./cors"
 
-var connection: Database = new Database('catalogopolis-api.sqlite');
+const connection: Database = new Database('catalogopolis-api.sqlite');
 
-var server: Application = polka();
+const server: Application = polka();
 
 if(!process.env.CATALOGOPOLIS_API_UA) {
 	throw('CATALOGOPOLIS_API_UA environment variable must be set')

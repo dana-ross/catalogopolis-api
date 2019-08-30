@@ -11,8 +11,8 @@ import { Database } from 'sqlite3'
 import memoize from "memoized-class-decorator"
 
 export interface WriterRow extends DBRecord, Named {
-	id: number
-	name: string
+	id: number;
+	name: string;
 }
 
 /**
@@ -46,7 +46,7 @@ export class Writer {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Writer objects in the system
@@ -69,7 +69,7 @@ export class Writer {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Writer by the Writers's name
@@ -93,7 +93,7 @@ export class Writer {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Writer objects for a given Serial ID
@@ -118,7 +118,7 @@ export class Writer {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Serial objects for a given Writer ID
@@ -143,7 +143,7 @@ export class Writer {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns a new Writer object populated from a basic JavaScript object (database result row)
@@ -152,7 +152,7 @@ export class Writer {
 	 * @static
 	 */
 	static fromRow(row: WriterRow): Writer {
-		var writer = new Writer();
+		const writer = new Writer();
 		row.id ? (writer.id = row.id) : undefined;
 		row.name ? (writer.name = row.name) : undefined;
 		return writer;
@@ -166,7 +166,7 @@ export class Writer {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/writers/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Writer object

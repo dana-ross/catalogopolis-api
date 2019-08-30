@@ -6,8 +6,8 @@
 import HATEAOSLink from "./hateaoslink"
 
 interface DBRecord {
-	id: number
-	links: Array<HATEAOSLink>
+	id: number;
+	links: Array<HATEAOSLink>;
 }
 
 export default DBRecord

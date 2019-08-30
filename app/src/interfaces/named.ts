@@ -4,7 +4,7 @@
  */
 
 interface Named {
-	name: string
+	name: string;
 }
 
 export default Named

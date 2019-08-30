@@ -11,8 +11,8 @@ import HATEAOSLink from "./interfaces/hateaoslink"
 import memoize from "memoized-class-decorator"
 
 interface CompanionRow extends DBRecord {
-	id: number
-	name: string
+	id: number;
+	name: string;
 }
 
 /**
@@ -46,7 +46,7 @@ export class Companion implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Companion objects in the system
@@ -69,7 +69,7 @@ export class Companion implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Companion by the Companion's name
@@ -93,7 +93,7 @@ export class Companion implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Companion objects for a given serial ID
@@ -118,7 +118,7 @@ export class Companion implements DBRecord, Named {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Serial objects for a given Companion ID
@@ -143,7 +143,7 @@ export class Companion implements DBRecord, Named {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns a new Companion object populated from a basic JavaScript object (database result row)
@@ -152,7 +152,7 @@ export class Companion implements DBRecord, Named {
 	 * @static
 	 */
 	static fromRow(row: CompanionRow): Companion {
-		var companion = new Companion();
+		const companion = new Companion();
 		row.id ? (companion.id = row.id) : undefined;
 		row.name ? (companion.name = row.name) : undefined;
 		return companion;
@@ -166,7 +166,7 @@ export class Companion implements DBRecord, Named {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/companions/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Companion object

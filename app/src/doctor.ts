@@ -12,8 +12,8 @@ import { Database } from 'sqlite3'
 import memoize from "memoized-class-decorator"
 
 export interface DoctorRow extends DBRecord {
-	incarnation: string
-	primary_actor: number
+	incarnation: string;
+	primary_actor: number;
 }
 
 /**
@@ -49,7 +49,7 @@ export class Doctor implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Doctor object for a given incarnation name
@@ -73,7 +73,7 @@ export class Doctor implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Doctor object for a given database ID
@@ -97,7 +97,7 @@ export class Doctor implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Actor objects for a given Doctor ID
@@ -122,7 +122,7 @@ export class Doctor implements DBRecord {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Doctor objects in the system
@@ -145,7 +145,7 @@ export class Doctor implements DBRecord {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Doctor objects for a given serial ID
@@ -170,7 +170,7 @@ export class Doctor implements DBRecord {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Serial objects for a given Doctor ID
@@ -195,7 +195,7 @@ export class Doctor implements DBRecord {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns a new Doctor object populated from a basic JavaScript object (database result row)
@@ -204,7 +204,7 @@ export class Doctor implements DBRecord {
 	 * @static
 	 */
 	static fromRow(row: DoctorRow): Doctor {
-		var doctor = new Doctor();
+		const doctor = new Doctor();
 		row.id ? (doctor.id = row.id) : undefined;
 		row.incarnation ? (doctor.incarnation = row.incarnation) : undefined;
 		row.primary_actor ? (doctor.primaryActorID = row.primary_actor) : undefined;
@@ -219,7 +219,7 @@ export class Doctor implements DBRecord {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/doctors/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Doctor object

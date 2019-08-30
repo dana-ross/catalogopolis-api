@@ -16,9 +16,9 @@ export enum Gender {
 }
 
 export interface ActorRow extends DBRecord {
-	id: number
-	name: string
-	gender: Gender
+	id: number;
+	name: string;
+	gender: Gender;
 }
 
 /**
@@ -67,7 +67,7 @@ export class Actor implements DBRecord, Named {
 	 * @static
 	 */
 	static fromRow(row: ActorRow): Actor {
-		var actor = new Actor();
+		const actor = new Actor();
 		row.id ? (actor.id = row.id) : undefined;
 		row.name ? (actor.name = row.name) : undefined;
 		row.gender ? (actor.gender = row.gender) : undefined;
@@ -96,7 +96,7 @@ export class Actor implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Actor objects in the system
@@ -119,7 +119,7 @@ export class Actor implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Actor by the Actor's name
@@ -143,7 +143,7 @@ export class Actor implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Actor by the Actor's gender
@@ -167,7 +167,7 @@ export class Actor implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Doctor objects for a given Actor ID
@@ -192,6 +192,6 @@ export class Actor implements DBRecord, Named {
 			});
 		});
 
-	};
+	}
 
 }

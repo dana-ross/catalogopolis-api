@@ -11,8 +11,8 @@ import HATEAOSLink from "./interfaces/hateaoslink"
 import memoize from "memoized-class-decorator"
 
 interface DirectorRow extends DBRecord {
-	id: number
-	name: string
+	id: number;
+	name: string;
 }
 
 /**
@@ -46,7 +46,7 @@ export class Director implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Director objects in the system
@@ -69,7 +69,7 @@ export class Director implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns a single Director by the Director's name
@@ -93,7 +93,7 @@ export class Director implements DBRecord, Named {
 				}
 			});
 		});
-	};
+	}
 
 	/**
 	 * Returns all Director objects for a given serial ID
@@ -118,7 +118,7 @@ export class Director implements DBRecord, Named {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns all Serial objects for a given Director ID
@@ -143,7 +143,7 @@ export class Director implements DBRecord, Named {
 			});
 		});
 
-	};
+	}
 
 	/**
 	 * Returns a new Director object populated from a basic JavaScript object (database result row)
@@ -152,7 +152,7 @@ export class Director implements DBRecord, Named {
 	 * @static
 	 */
 	static fromRow(row: DirectorRow): Director {
-		var director = new Director();
+		const director = new Director();
 		row.id ? (director.id = row.id) : undefined;
 		row.name ? (director.name = row.name) : undefined;
 		return director;
@@ -166,7 +166,7 @@ export class Director implements DBRecord, Named {
 	 */
 	static restv1URL(id: number): string {
 		return "/v1/directors/" + id
-	};
+	}
 
 	/**
 	 * Adds HATEAOS data to a Director object

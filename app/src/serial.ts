@@ -34,15 +34,15 @@ export class Serial implements DBRecord {
 	 * Returns a single Serial object for a given database ID
 	 * @param {object} connection SQLite connection
 	 * @param {number} id Serial database ID
-	 * @returns {Promise<Serial>}
+	 * @returns {Promise<Array<Serial>>}
 	 */
 	@memoize
-	static forID(connection, id): Promise<Serial> {
+	static forID(connection, id): Promise<Array<Serial>> {
 		return new Promise(function (resolve, reject): void {
 			connection.all('SELECT * FROM serials WHERE id = ?', [id], function (err, rows: Array<SerialRow> /*, fields */): void {
 				if (!err) {
 					if (rows && rows.length) {
-						resolve(Serial.fromRow(rows[0]).addHATEAOS());
+						resolve([Serial.fromRow(rows[0]).addHATEAOS()]);
 					}
 					else {
 						resolve([]);

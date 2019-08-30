@@ -4,7 +4,7 @@
  */
 
 import { GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean } from "graphql"
-import graphqlHTTP from "express-graphql"
+import graphqlHTTP from 'express-graphql'
 import { Doctor } from "./doctor"
 import { Director } from "./director"
 import { Writer } from "./writer"

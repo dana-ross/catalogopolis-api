@@ -8,7 +8,7 @@ import { Actor } from "./actor"
 import { ActorRow } from "./actor"
 import DBRecord from "./interfaces/dbrecord"
 import HATEAOSLink from "./interfaces/hateaoslink"
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import memoize from "memoized-class-decorator"
 
 export interface DoctorRow extends DBRecord {

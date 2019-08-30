@@ -3,7 +3,7 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
 import HATEAOSLink from "./interfaces/hateaoslink"

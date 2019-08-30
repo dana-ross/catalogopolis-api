@@ -3,7 +3,7 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import { Serial } from "./serial"
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"

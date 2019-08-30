@@ -5,8 +5,8 @@ import { Director } from "./director"
 import { Season } from "./season"
 import { Actor } from "./actor"
 import { Episode } from "./episode"
-import { Request, Response } from "polka"
-import { Companion } from "./companion";
+import { Request, Response } from 'polka'
+import { Companion } from "./companion"
 
 /**
  * Output the result of a successful query

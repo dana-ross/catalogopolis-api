@@ -1,4 +1,4 @@
-import { Application, Request, Response } from "polka"
+import { Application, Request, Response } from 'polka'
 import ua from "universal-analytics"
 
 /**

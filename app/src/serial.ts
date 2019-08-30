@@ -5,7 +5,7 @@
 
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import HATEAOSLink from "./interfaces/hateaoslink"
 import memoize from "memoized-class-decorator"
 

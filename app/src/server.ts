@@ -4,13 +4,11 @@
  */
 
 require('dotenv').config()
-import polka from "polka"
-import { Request } from 'polka';
-import {Application} from "polka"
+import polka from 'polka'
+import {Application} from 'polka'
 import restv1 from "./restv1"
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import graphql from "./graphql"
-import * as path from "path"
 import analytics from "./analytics"
 import favicon from "./favicon"
 import cors from "./cors"

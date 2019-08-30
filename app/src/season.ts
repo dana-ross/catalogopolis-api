@@ -7,7 +7,7 @@ import {Serial, SerialRow} from "./serial"
 import HATEAOSLink from "./interfaces/hateaoslink"
 import DBRecord from "./interfaces/dbrecord"
 import Named from "./interfaces/named"
-import { Database } from "sqlite3"
+import { Database } from 'sqlite3'
 import memoize from "memoized-class-decorator"
 
 export interface SeasonRow extends DBRecord, Named {

@@ -3,7 +3,7 @@
  * @author Dave Ross <dave@davidmichaelross.com>
  */
 
-import { Application, Request, Response } from "polka"
+import { Application, Request, Response } from 'polka'
 
 export default function corsAllowAll(server: Application) {
 

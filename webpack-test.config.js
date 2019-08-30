@@ -20,13 +20,13 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
-		new webpack.optimize.UglifyJsPlugin({minimize: true})
-
-	],
+	plugins: [],
 	resolve: {
 		extensions: [".webpack.js", ".web.js", ".ts", ".js"]
 	},
 	target: "node",
-	externals: [nodeExternals()]
+	externals: [nodeExternals()],
+	optimization: {
+		minimize: true
+	}
 }

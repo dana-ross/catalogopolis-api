@@ -24,6 +24,7 @@ module.exports = {
 	resolve: {
 		extensions: [".webpack.js", ".web.js", ".ts", ".js"]
 	},
+	mode: "development",
 	target: "node",
 	externals: [nodeExternals()],
 	optimization: {

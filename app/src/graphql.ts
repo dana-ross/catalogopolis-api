@@ -1,6 +1,6 @@
 /**
  * @file GraphQL implementation
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 import { GraphQLObjectType, GraphQLSchema, GraphQLList, GraphQLID, GraphQLString, GraphQLInt, GraphQLFloat, GraphQLBoolean } from "graphql"

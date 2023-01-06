@@ -1,6 +1,6 @@
 /**
  * @file Catalogopolis API installation script
- * @author Dave Ross <dave@davidmichaelross.com> 
+ * @author Dana Ross <dana@danaross.dev> 
  */
 
 var sqlite3 = require('sqlite3').verbose(),

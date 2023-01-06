@@ -1,6 +1,6 @@
 /**
  * @file Season class
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 import {Serial, SerialRow} from "./serial"

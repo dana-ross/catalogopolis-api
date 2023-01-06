@@ -1,6 +1,6 @@
 /**
  * @file Catalogopolis API Bootstrap/Initialization
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 require('dotenv').config()

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.1",
   "description": "API with information on Doctor Who episodes and related data.",
-  "author": "Dave Ross <dave@davidmichaelross.com>",
+  "author": "Dana Ross <dana@danaross.dev>",
   "main": "app/dist/bundle.js",
   "scripts": {
     "start": "node app/dist/bundle.js",
@@ -16,7 +16,7 @@
     "lint": "eslint --ext .js,.ts app/src --fix"
   },
   "devDependencies": {
-    "@2fd/graphdoc": "github:daveross/graphdoc",
+    "@2fd/graphdoc": "github:dana-ross/graphdoc",
     "@types/chai": "^3.4.35",
     "@types/mocha": "^2.2.46",
     "@types/node": "^7.0.52",

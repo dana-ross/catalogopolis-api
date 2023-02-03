@@ -1,6 +1,6 @@
 /**
  * @file Named interface
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 interface Named {

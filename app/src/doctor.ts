@@ -1,6 +1,6 @@
 /**
  * @file Doctor class
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 import { Serial } from "./serial"

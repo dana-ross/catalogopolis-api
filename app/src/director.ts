@@ -1,6 +1,6 @@
 /**
  * @file Director class
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 import { Database } from 'sqlite3'

@@ -1,6 +1,6 @@
 /**
  * @file DBRecord interface
- * @author Dave Ross <dave@davidmichaelross.com>
+ * @author Dana Ross <dana@danaross.dev>
  */
 
 import HATEAOSLink from "./hateaoslink"
